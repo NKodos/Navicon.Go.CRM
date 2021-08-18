@@ -138,6 +138,8 @@ Navicon.nav_agreement.task4 = (function () {
         let autoidAttr = formContext.getAttribute('new_autoid');
         let autoidValue = autoidAttr.getValue();
 
+        if (autoidValue == null || autoidValue.length < 1 || autoidValue[0] == null) return;
+
         var relationshipPromise = Xrm.WebApi.retrieveMultipleRecords('new_new_credit_new_auto', '?$filter=new_autoid eq ' +
             autoidValue[0].id);
 
@@ -212,23 +214,24 @@ Navicon.nav_agreement.task5 = (function () {
 
     var showNotValidDatesNotification = function (level) {
         let notification =
-            {
-                type: 2,
-                level: level,
-                showCloseButton: true,
-                message: "Дата окончания должна быть больше даты начала, не менее, чем на год"
-            };
+        {
+            type: 2,
+            level: level,
+            showCloseButton: true,
+            message: "Дата окончания должна быть больше даты начала, не менее, чем на год"
+        };
 
-            Xrm.App.addGlobalNotification(notification).then(
-                function success(result) {
-                    console.log("Notification created with ID: " + result);
-                    window.setTimeout(function () { 
-                        Xrm.App.clearGlobalNotification(result); }, alertDelay);
-                },
-                function (error) {
-                    console.log(error.message);
-                }
-            );
+        Xrm.App.addGlobalNotification(notification).then(
+            function success(result) {
+                console.log("Notification created with ID: " + result);
+                window.setTimeout(function () {
+                    Xrm.App.clearGlobalNotification(result);
+                }, alertDelay);
+            },
+            function (error) {
+                console.log(error.message);
+            }
+        );
     };
 
     return {
@@ -240,6 +243,32 @@ Navicon.nav_agreement.task5 = (function () {
             dateStartAttr.addOnChange(dateStartOnChange);
             dateEndAttr.addOnChange(dateStartOnChange);
             formContext.data.entity.addOnSave(entityOnSave)
+        }
+    };
+})();
+
+// Task 6
+// На объекте Договор, реализовать функцию для поля номер договора - 
+// по завершении ввода, оставлять только цифры и тире.
+
+Navicon.nav_agreement.task6 = (function () {
+    
+    var numberOnChange = function (context) {
+        let formContext = context.getFormContext();
+        let numberAttr = formContext.getAttribute('new_number');
+        let numberValue = numberAttr.getValue();
+
+        if (numberValue == null) return;
+        let resultNumber = numberValue.replace(/[^\d\-]/g, '');
+        numberAttr.setValue(resultNumber);
+    };
+
+    return {
+        onLoad: function (context) {
+            let formContext = context.getFormContext();
+            let numberAttr = formContext.getAttribute('new_number');
+
+            numberAttr.addOnChange(numberOnChange);
         }
     };
 })();
