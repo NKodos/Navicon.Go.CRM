@@ -1,11 +1,5 @@
 var Navicon = Navicon || {};
 Navicon.nav_agreement = Navicon.nav_agreement || {};
-const creatingFormType = 1;
-const enabledControlsForCreating = ['new_number', 'new_date',
-    'new_contact', 'new_autoid'];
-const creditAttributeNames = ['new_creditperiod', 'new_creditamount',
-    'new_fullcreditamount', 'new_initialfee', 'new_factsumma',
-    'new_paymentplandate'];
 
 // Task 1
 // При создании объекта Договор, сразу после открытия карточки доступны для редактирования 
@@ -13,10 +7,18 @@ const creditAttributeNames = ['new_creditperiod', 'new_creditamount',
 // Вкладка с данными по кредиту скрыта.
 
 Navicon.nav_agreement.task1 = (function () {
+    const creatingFormType = 1;
+    const enabledControlsForCreating = ['new_number', 'new_date',
+        'new_contact', 'new_autoid'];
+    const creditAttributeNames = ['new_creditperiod', 'new_creditamount',
+        'new_fullcreditamount', 'new_initialfee', 'new_factsumma',
+        'new_paymentplandate'];
 
     var disableCreationFormAttributes = function (context) {
         let formContext = context.getFormContext();
         let controls = formContext.getControl();
+
+        if (controls == null) return;
 
         controls.forEach(control => {
             let controlName = control.getName();
@@ -26,7 +28,9 @@ Navicon.nav_agreement.task1 = (function () {
         });
 
         let creditTab = formContext.ui.tabs.get('Credit');
-        creditTab.setVisible(false);
+        if (creditTab != null) {
+            creditTab.setVisible(false);
+        }
     };
 
     return {
@@ -74,8 +78,12 @@ Navicon.nav_agreement.task2 = (function () {
             let contactAttr = formContext.getAttribute('new_contact');
             let autoidAttr = formContext.getAttribute('new_autoid');
 
-            contactAttr.addOnChange(autoAndContactOnChange);
-            autoidAttr.addOnChange(autoAndContactOnChange);
+            if (contactAttr) {
+                contactAttr.addOnChange(autoAndContactOnChange);
+            }
+            if (autoidAttr) {
+                autoidAttr.addOnChange(autoAndContactOnChange);
+            }
         }
     };
 })();
