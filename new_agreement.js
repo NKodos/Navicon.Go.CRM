@@ -252,7 +252,7 @@ Navicon.nav_agreement.task5 = (function () {
 // по завершении ввода, оставлять только цифры и тире.
 
 Navicon.nav_agreement.task6 = (function () {
-    
+
     var numberOnChange = function (context) {
         let formContext = context.getFormContext();
         let numberAttr = formContext.getAttribute('new_number');
@@ -269,6 +269,62 @@ Navicon.nav_agreement.task6 = (function () {
             let numberAttr = formContext.getAttribute('new_number');
 
             numberAttr.addOnChange(numberOnChange);
+        }
+    };
+})();
+
+// Task 7
+// На форме объекта Средство связи, при создании поля Телефон и Email скрыты. 
+// При выборе пользователем значения в поле Тип, необходимо отображать соответствующее поле: 
+// Если тип = Телефон, отображать поле Телефон
+// Если тип = E-mail, отображать поле Email.  
+
+
+Navicon.nav_agreement.task7 = (function () {
+
+    var typeOnChange = function (context) {
+        let formContext = context.getFormContext();
+        let typeAttr = formContext.getAttribute('new_type');
+        let option = typeAttr.getSelectedOption();
+
+        option = option || { text: '' };
+        disableControlsByType(context, option.text);
+
+
+    };
+
+    var disableControlsByType = function (context, typeValue) {
+        let formContext = context.getFormContext();
+        let phoneControl = formContext.getControl('new_phone');
+        let emailControl = formContext.getControl('new_email');
+
+        switch (typeValue) {
+            case 'Телефон':
+                phoneControl.setVisible(true);
+                emailControl.setVisible(false);
+                break;
+
+            case 'E-mail':
+                phoneControl.setVisible(false);
+                emailControl.setVisible(true);
+                break;
+            default:
+                phoneControl.setVisible(false);
+                emailControl.setVisible(false);
+                break;
+        }
+    };
+
+    return {
+        onLoad: function (context) {
+            let formContext = context.getFormContext();
+            let typeAttr = formContext.getAttribute('new_type');
+            let option = typeAttr.getSelectedOption();
+            
+            option = option || { text: '' };
+            disableControlsByType(context, option.text);
+
+            typeAttr.addOnChange(typeOnChange);
         }
     };
 })();
