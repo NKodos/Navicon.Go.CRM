@@ -130,10 +130,6 @@ Navicon.nav_agreement.task3 = (function () {
 // Автомобиль отношением N:N то в договоре при выборе кредитной программы 
 // в списке лукап поля должны быть доступны только программы, связанные  
 // с выбранным объектом Автомобиль.
-// 
-// 1. Получить id автомобиля
-// 2. Получить записи кредитных программ, которые есть в таблице связи с id полученным ранее
-// 3. Прокинуть эти записи в контрол
 
 Navicon.nav_agreement.task4 = (function () {
 
@@ -161,18 +157,89 @@ Navicon.nav_agreement.task4 = (function () {
                     console.log("filter=", filter);
                     control.addCustomFilter(filter);
                 });
-                
+
             },
             function (error) {
                 console.error(error.message);
             }
         );
     };
-    
+
     return {
         onLoad: function (context) {
 
             filterContacts(context);
+        }
+    };
+})();
+
+// Task 5
+// На объекте Кредитная программа необходимо проверять, чтобы дата 
+// окончания была больше даты начала, не менее, чем на год. В случае 
+// невыполнения условия, показывать информационное сообщение и блокировать 
+// сохранение формы.
+
+Navicon.nav_agreement.task5 = (function () {
+    const alertDelay = 5000;
+
+    var dateStartOnChange = function (context) {
+        let datesIsNotValid = !isDateEndOneYearLaterThanDateStart(context);
+
+        if (datesIsNotValid) {
+            showNotValidDatesNotification(3);
+        }
+    };
+
+    var entityOnSave = function (context) {
+        var datesIsNotValid = !isDateEndOneYearLaterThanDateStart(context);
+
+        if (datesIsNotValid) {
+            context.getEventArgs().preventDefault();
+            showNotValidDatesNotification(2);
+        }
+    };
+
+    var isDateEndOneYearLaterThanDateStart = function (context) {
+        let formContext = context.getFormContext();
+        let dateStartAttr = formContext.getAttribute('new_datestart');
+        let dateEndAttr = formContext.getAttribute('new_dateend');
+        let dateStartValue = dateStartAttr.getValue();
+        let dateEndValue = dateEndAttr.getValue();
+
+        let dateDiff = dateEndValue.getFullYear() - dateStartValue.getFullYear();
+        return dateDiff >= 1;
+    };
+
+    var showNotValidDatesNotification = function (level) {
+        let notification =
+            {
+                type: 2,
+                level: level,
+                showCloseButton: true,
+                message: "Дата окончания должна быть больше даты начала, не менее, чем на год"
+            };
+
+            Xrm.App.addGlobalNotification(notification).then(
+                function success(result) {
+                    console.log("Notification created with ID: " + result);
+                    window.setTimeout(function () { 
+                        Xrm.App.clearGlobalNotification(result); }, alertDelay);
+                },
+                function (error) {
+                    console.log(error.message);
+                }
+            );
+    };
+
+    return {
+        onLoad: function (context) {
+            let formContext = context.getFormContext();
+            let dateStartAttr = formContext.getAttribute('new_datestart');
+            let dateEndAttr = formContext.getAttribute('new_dateend');
+
+            dateStartAttr.addOnChange(dateStartOnChange);
+            dateEndAttr.addOnChange(dateStartOnChange);
+            formContext.data.entity.addOnSave(entityOnSave)
         }
     };
 })();
