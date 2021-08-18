@@ -288,12 +288,10 @@ Navicon.nav_agreement.task7 = (function () {
         let option = typeAttr.getSelectedOption();
 
         option = option || { text: '' };
-        disableControlsByType(context, option.text);
-
-
+        setVisibleControlsByType(context, option.text);
     };
 
-    var disableControlsByType = function (context, typeValue) {
+    var setVisibleControlsByType = function (context, typeValue) {
         let formContext = context.getFormContext();
         let phoneControl = formContext.getControl('new_phone');
         let emailControl = formContext.getControl('new_email');
@@ -320,11 +318,52 @@ Navicon.nav_agreement.task7 = (function () {
             let formContext = context.getFormContext();
             let typeAttr = formContext.getAttribute('new_type');
             let option = typeAttr.getSelectedOption();
-            
+
             option = option || { text: '' };
-            disableControlsByType(context, option.text);
+            setVisibleControlsByType(context, option.text);
 
             typeAttr.addOnChange(typeOnChange);
+        }
+    };
+})();
+
+// Task 8
+// Поля на объекте Автомобиль new_auto: Пробег, Количество владельцев, 
+// был в ДТП отображаются только при значении в поле С пробегом(new_used)=true. 
+
+
+Navicon.nav_agreement.task8 = (function () {
+
+    var usedChange = function (context) {
+        let formContext = context.getFormContext();
+        let usedAttr = formContext.getAttribute('new_used');
+
+        let value = usedAttr.getValue();
+        setVisibleControlsByType(context, value);
+    };
+
+    var setVisibleControlsByType = function (context, boolValue) {
+        if (boolValue == null) return;
+
+        let formContext = context.getFormContext();
+        let kmControl = formContext.getControl('new_km');
+        let ownerscountControl = formContext.getControl('new_ownerscount');
+        let isdamagedControl = formContext.getControl('new_isdamaged');
+
+        kmControl.setVisible(boolValue);
+        ownerscountControl.setVisible(boolValue);
+        isdamagedControl.setVisible(boolValue);
+    };
+
+    return {
+        onLoad: function (context) {
+            let formContext = context.getFormContext();
+            let usedAttr = formContext.getAttribute('new_used');
+
+            let value = usedAttr.getValue();
+            setVisibleControlsByType(context, value);
+
+            usedAttr.addOnChange(usedChange);
         }
     };
 })();
