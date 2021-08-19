@@ -1,6 +1,10 @@
 var Navicon = Navicon || {};
 Navicon.nav_agreement = Navicon.nav_agreement || {};
 
+const creditAttributeNames = ['new_creditperiod', 'new_creditamount',
+    'new_fullcreditamount', 'new_initialfee', 'new_factsumma',
+    'new_paymentplandate'];
+
 // Task 1
 // При создании объекта Договор, сразу после открытия карточки доступны для редактирования 
 // поля: номер, дата договора, контакт и модель. Остальные поля - скрыты. 
@@ -10,9 +14,6 @@ Navicon.nav_agreement.task1 = (function () {
     const creatingFormType = 1;
     const enabledControlsForCreating = ['new_number', 'new_date',
         'new_contact', 'new_autoid'];
-    const creditAttributeNames = ['new_creditperiod', 'new_creditamount',
-        'new_fullcreditamount', 'new_initialfee', 'new_factsumma',
-        'new_paymentplandate'];
 
     var disableCreationFormAttributes = function (context) {
         let formContext = context.getFormContext();
@@ -129,6 +130,7 @@ Navicon.nav_agreement.task3 = (function () {
             let creditAttr = formContext.getAttribute('new_creditid');
 
             creditAttr.addOnChange(creditidOnChange);
+            creditidOnChange(context);
         }
     };
 })();
@@ -250,7 +252,7 @@ Navicon.nav_agreement.task5 = (function () {
 
             dateStartAttr.addOnChange(dateStartOnChange);
             dateEndAttr.addOnChange(dateStartOnChange);
-            formContext.data.entity.addOnSave(entityOnSave)
+            formContext.data.entity.addOnSave(entityOnSave);
         }
     };
 })();
