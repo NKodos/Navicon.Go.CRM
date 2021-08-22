@@ -143,7 +143,7 @@ Navicon.nav_agreement.task3 = (function () {
 
 Navicon.nav_agreement.task4 = (function () {
 
-    let filterContacts = function (context) {
+    let filterCredit = function (context) {
         let formContext = context.getFormContext();
         let autoidAttr = formContext.getAttribute('new_autoid');
         let autoidValue = autoidAttr.getValue();
@@ -180,7 +180,7 @@ Navicon.nav_agreement.task4 = (function () {
     return {
         onLoad: function (context) {
 
-            filterContacts(context);
+            filterCredit(context);
         }
     };
 })();

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="ClientGlobalContext.js.aspx" type="text/javascript"></script>
+    <link rel="stylesheet"
+        href="https://orgdf343115.crm4.dynamics.com//WebResources/new_new_relationship_credit_model_iframe_style">
+    <script>
+        document.onreadystatechange = function () {
+            if (document.readyState == "complete") {
+                OnDocumentLoad();
+            }
+        }
+
+        function OnDocumentLoad() {
+            console.log('iframe loaded');
+        }
+
+        function fillGrid(array) {
+            const rows = array.map(
+                (row, index) => {
+                    console.log(row);
+                    return `<div class="grid-item" onClick="creditItemOnClick('${row.creditId}')">${row.creditName}</div>` +
+                        `<div class="grid-item" onClick="modelItemOnClick('${row.modelId}')">${row.modelName}</div>` +
+                        `<div class="grid-item">${row.creditPeriod}</div>`
+                }
+            );
+
+            const element = document.getElementById('grid');
+            rows.forEach(row => {
+                element.innerHTML += row;
+            });
+        }
+
+        function creditItemOnClick(creditId) {
+            var entityFormOptions = {};
+            entityFormOptions["entityName"] = "new_credit";
+            entityFormOptions["entityId"] = creditId;
+
+            openEntityForm(entityFormOptions);
+            console.log("credit id=", creditId);
+        }
+
+        function modelItemOnClick(modelId) {
+            var entityFormOptions = {};
+            entityFormOptions["entityName"] = "new_model";
+            entityFormOptions["entityId"] = modelId;
+
+            openEntityForm(entityFormOptions);
+            console.log("model id=", creditId);
+        }
+
+        function openEntityForm(entityFormOptions) {
+            entityFormOptions["openInNewWindow"] = true;
+            parent.Xrm.Navigation.openForm(entityFormOptions).then(
+                function (success) {
+                    console.log(success);
+                },
+                function (error) {
+                    console.log(error);
+                }
+            );
+        }
+    </script>
+</head>
+
+<body>    
+    <div class="grid-container" id="grid">
+        <div class="grid-header-item">Кредитная программа</div>
+        <div class="grid-header-item">Модель</div>
+        <div class="grid-header-item">Срок кредита</div>
+    </div>
+</body>
+</html>

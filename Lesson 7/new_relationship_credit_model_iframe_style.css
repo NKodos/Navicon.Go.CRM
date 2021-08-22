@@ -1,0 +1,25 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    font-family: SegoeUI, "Segoe UI";
+    color: rgb(68, 68, 68);
+    margin-top: 50px;
+    text-align: center;
+}
+
+.grid-item {
+    font-weight: 400;
+    padding: 10px;
+    border-top: 1px solid rgb(216, 216, 216);
+}
+
+.grid-item:hover {
+    cursor: pointer;
+    background-color: #E8E8E8;
+}
+
+.grid-header-item {    
+    padding: 10px;
+    font-weight: bold;
+}
+

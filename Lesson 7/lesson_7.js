@@ -23,7 +23,7 @@ Navicon.lesson_7.task1 = (function () {
 
         if (isDateNotValid) {
             showNotValidDatesNotification(2);
-            context.getEventArgs().preventDefault();
+            //context.getEventArgs().preventDefault();
         }
     };
 
