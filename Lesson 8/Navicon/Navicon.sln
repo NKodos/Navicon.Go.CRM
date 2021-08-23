@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31313.79
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navicon.Plugins", "Navicon.Plugins\Navicon.Plugins.csproj", "{D7AE27F1-FF0B-487A-8FB3-D2D14BAD8698}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navicon.Common", "Navicon.Common\Navicon.Common.csproj", "{DE085A48-583C-4ABC-B800-4086C9F4C191}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D7AE27F1-FF0B-487A-8FB3-D2D14BAD8698}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7AE27F1-FF0B-487A-8FB3-D2D14BAD8698}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7AE27F1-FF0B-487A-8FB3-D2D14BAD8698}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7AE27F1-FF0B-487A-8FB3-D2D14BAD8698}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE085A48-583C-4ABC-B800-4086C9F4C191}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE085A48-583C-4ABC-B800-4086C9F4C191}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE085A48-583C-4ABC-B800-4086C9F4C191}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE085A48-583C-4ABC-B800-4086C9F4C191}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F9978DA1-9594-43FE-9BDB-C46586DEB681}
+	EndGlobalSection
+EndGlobal
