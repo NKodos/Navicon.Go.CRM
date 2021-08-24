@@ -30,6 +30,40 @@ namespace Navicon.Common.Entities
 	public partial class new_invoice : Microsoft.Xrm.Sdk.Entity, System.ComponentModel.INotifyPropertyChanging, System.ComponentModel.INotifyPropertyChanged
 	{
 		
+		public static class Fields
+		{
+			public const string CreatedBy = "createdby";
+			public const string CreatedOn = "createdon";
+			public const string CreatedOnBehalfBy = "createdonbehalfby";
+			public const string ExchangeRate = "exchangerate";
+			public const string ImportSequenceNumber = "importsequencenumber";
+			public const string ModifiedBy = "modifiedby";
+			public const string ModifiedOn = "modifiedon";
+			public const string ModifiedOnBehalfBy = "modifiedonbehalfby";
+			public const string new_amount = "new_amount";
+			public const string new_amount_Base = "new_amount_base";
+			public const string new_date = "new_date";
+			public const string new_dogovorid = "new_dogovorid";
+			public const string new_fact = "new_fact";
+			public const string new_invoiceId = "new_invoiceid";
+			public const string Id = "new_invoiceid";
+			public const string new_name = "new_name";
+			public const string new_paydate = "new_paydate";
+			public const string new_type = "new_type";
+			public const string OverriddenCreatedOn = "overriddencreatedon";
+			public const string OwnerId = "ownerid";
+			public const string OwningBusinessUnit = "owningbusinessunit";
+			public const string OwningTeam = "owningteam";
+			public const string OwningUser = "owninguser";
+			public const string StateCode = "statecode";
+			public const string StatusCode = "statuscode";
+			public const string TimeZoneRuleVersionNumber = "timezoneruleversionnumber";
+			public const string TransactionCurrencyId = "transactioncurrencyid";
+			public const string UTCConversionTimeZoneCode = "utcconversiontimezonecode";
+			public const string VersionNumber = "versionnumber";
+			public const string new_new_agreement_new_invoice_dogovorid = "new_new_agreement_new_invoice_dogovorid";
+		}
+		
 		/// <summary>
 		/// Default Constructor.
 		/// </summary>

@@ -42,6 +42,68 @@ namespace Navicon.Common.Entities
 	public partial class Contract : Microsoft.Xrm.Sdk.Entity, System.ComponentModel.INotifyPropertyChanging, System.ComponentModel.INotifyPropertyChanged
 	{
 		
+		public static class Fields
+		{
+			public const string AccountId = "accountid";
+			public const string ActiveOn = "activeon";
+			public const string AllotmentTypeCode = "allotmenttypecode";
+			public const string BillingAccountId = "billingaccountid";
+			public const string BillingContactId = "billingcontactid";
+			public const string BillingCustomerId = "billingcustomerid";
+			public const string BillingEndOn = "billingendon";
+			public const string BillingFrequencyCode = "billingfrequencycode";
+			public const string BillingStartOn = "billingstarton";
+			public const string BillToAddress = "billtoaddress";
+			public const string CancelOn = "cancelon";
+			public const string ContactId = "contactid";
+			public const string ContractId = "contractid";
+			public const string Id = "contractid";
+			public const string ContractLanguage = "contractlanguage";
+			public const string ContractNumber = "contractnumber";
+			public const string ContractServiceLevelCode = "contractservicelevelcode";
+			public const string ContractTemplateAbbreviation = "contracttemplateabbreviation";
+			public const string ContractTemplateId = "contracttemplateid";
+			public const string CreatedBy = "createdby";
+			public const string CreatedOn = "createdon";
+			public const string CreatedOnBehalfBy = "createdonbehalfby";
+			public const string CustomerId = "customerid";
+			public const string Duration = "duration";
+			public const string EffectivityCalendar = "effectivitycalendar";
+			public const string EmailAddress = "emailaddress";
+			public const string EntityImage = "entityimage";
+			public const string EntityImage_Timestamp = "entityimage_timestamp";
+			public const string EntityImage_URL = "entityimage_url";
+			public const string EntityImageId = "entityimageid";
+			public const string ExchangeRate = "exchangerate";
+			public const string ExpiresOn = "expireson";
+			public const string ImportSequenceNumber = "importsequencenumber";
+			public const string ModifiedBy = "modifiedby";
+			public const string ModifiedOn = "modifiedon";
+			public const string ModifiedOnBehalfBy = "modifiedonbehalfby";
+			public const string NetPrice = "netprice";
+			public const string NetPrice_Base = "netprice_base";
+			public const string OriginatingContract = "originatingcontract";
+			public const string OverriddenCreatedOn = "overriddencreatedon";
+			public const string OwnerId = "ownerid";
+			public const string OwningBusinessUnit = "owningbusinessunit";
+			public const string OwningTeam = "owningteam";
+			public const string OwningUser = "owninguser";
+			public const string ServiceAddress = "serviceaddress";
+			public const string StateCode = "statecode";
+			public const string StatusCode = "statuscode";
+			public const string TimeZoneRuleVersionNumber = "timezoneruleversionnumber";
+			public const string Title = "title";
+			public const string TotalDiscount = "totaldiscount";
+			public const string TotalDiscount_Base = "totaldiscount_base";
+			public const string TotalPrice = "totalprice";
+			public const string TotalPrice_Base = "totalprice_base";
+			public const string TransactionCurrencyId = "transactioncurrencyid";
+			public const string UseDiscountAsPercentage = "usediscountaspercentage";
+			public const string UTCConversionTimeZoneCode = "utcconversiontimezonecode";
+			public const string VersionNumber = "versionnumber";
+			public const string Referencingcontract_originating_contract = "contract_originating_contract";
+		}
+		
 		/// <summary>
 		/// Default Constructor.
 		/// </summary>

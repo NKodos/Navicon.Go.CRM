@@ -95,5 +95,11 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Navicon.Common\Navicon.Common.csproj">
+      <Project>{de085a48-583c-4abc-b800-4086c9f4c191}</Project>
+      <Name>Navicon.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

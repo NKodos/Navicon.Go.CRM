@@ -30,6 +30,50 @@ namespace Navicon.Common.Entities
 	public partial class new_agreement : Microsoft.Xrm.Sdk.Entity, System.ComponentModel.INotifyPropertyChanging, System.ComponentModel.INotifyPropertyChanged
 	{
 		
+		public static class Fields
+		{
+			public const string CreatedBy = "createdby";
+			public const string CreatedOn = "createdon";
+			public const string CreatedOnBehalfBy = "createdonbehalfby";
+			public const string ExchangeRate = "exchangerate";
+			public const string ImportSequenceNumber = "importsequencenumber";
+			public const string ModifiedBy = "modifiedby";
+			public const string ModifiedOn = "modifiedon";
+			public const string ModifiedOnBehalfBy = "modifiedonbehalfby";
+			public const string new_agreementId = "new_agreementid";
+			public const string Id = "new_agreementid";
+			public const string new_autoid = "new_autoid";
+			public const string new_contact = "new_contact";
+			public const string new_creditamount = "new_creditamount";
+			public const string new_creditamount_Base = "new_creditamount_base";
+			public const string new_creditid = "new_creditid";
+			public const string new_creditperiod = "new_creditperiod";
+			public const string new_date = "new_date";
+			public const string new_fact = "new_fact";
+			public const string new_factsumma = "new_factsumma";
+			public const string new_factsumma_Base = "new_factsumma_base";
+			public const string new_fullcreditamount = "new_fullcreditamount";
+			public const string new_fullcreditamount_Base = "new_fullcreditamount_base";
+			public const string new_initialfee = "new_initialfee";
+			public const string new_initialfee_Base = "new_initialfee_base";
+			public const string new_name = "new_name";
+			public const string new_number = "new_number";
+			public const string new_paymentplandate = "new_paymentplandate";
+			public const string new_summa = "new_summa";
+			public const string new_summa_Base = "new_summa_base";
+			public const string OverriddenCreatedOn = "overriddencreatedon";
+			public const string OwnerId = "ownerid";
+			public const string OwningBusinessUnit = "owningbusinessunit";
+			public const string OwningTeam = "owningteam";
+			public const string OwningUser = "owninguser";
+			public const string StateCode = "statecode";
+			public const string StatusCode = "statuscode";
+			public const string TimeZoneRuleVersionNumber = "timezoneruleversionnumber";
+			public const string TransactionCurrencyId = "transactioncurrencyid";
+			public const string UTCConversionTimeZoneCode = "utcconversiontimezonecode";
+			public const string VersionNumber = "versionnumber";
+		}
+		
 		/// <summary>
 		/// Default Constructor.
 		/// </summary>
