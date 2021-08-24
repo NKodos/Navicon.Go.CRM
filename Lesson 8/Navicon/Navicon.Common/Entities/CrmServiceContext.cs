@@ -30,50 +30,14 @@ namespace Navicon.Common.Entities
 		}
 		
 		/// <summary>
-		/// Gets a binding to the set of all <see cref="Navicon.Common.Entities.Contract"/> entities.
+		/// Gets a binding to the set of all <see cref="Navicon.Common.Entities.Contact"/> entities.
 		/// </summary>
-		public System.Linq.IQueryable<Navicon.Common.Entities.Contract> ContractSet
+		public System.Linq.IQueryable<Navicon.Common.Entities.Contact> ContactSet
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return this.CreateQuery<Navicon.Common.Entities.Contract>();
-			}
-		}
-		
-		/// <summary>
-		/// Gets a binding to the set of all <see cref="Navicon.Common.Entities.new_agreement"/> entities.
-		/// </summary>
-		public System.Linq.IQueryable<Navicon.Common.Entities.new_agreement> new_agreementSet
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.CreateQuery<Navicon.Common.Entities.new_agreement>();
-			}
-		}
-		
-		/// <summary>
-		/// Gets a binding to the set of all <see cref="Navicon.Common.Entities.new_communication"/> entities.
-		/// </summary>
-		public System.Linq.IQueryable<Navicon.Common.Entities.new_communication> new_communicationSet
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.CreateQuery<Navicon.Common.Entities.new_communication>();
-			}
-		}
-		
-		/// <summary>
-		/// Gets a binding to the set of all <see cref="Navicon.Common.Entities.new_invoice"/> entities.
-		/// </summary>
-		public System.Linq.IQueryable<Navicon.Common.Entities.new_invoice> new_invoiceSet
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.CreateQuery<Navicon.Common.Entities.new_invoice>();
+				return this.CreateQuery<Navicon.Common.Entities.Contact>();
 			}
 		}
 	}

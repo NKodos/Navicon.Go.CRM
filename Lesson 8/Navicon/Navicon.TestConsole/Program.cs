@@ -39,6 +39,9 @@ namespace Navicon.TestConsole
                 Console.WriteLine($"{invoice.new_name}: {invoice.new_type}");
             }
 
+            var eRef = new EntityReference();
+            
+
             Console.ReadKey();
         }
     }

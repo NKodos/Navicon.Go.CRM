@@ -66,6 +66,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Agreement\Handlers\AgreementService.cs" />
+    <Compile Include="Agreement\PreAgreementCreate.cs" />
     <Compile Include="Invoice\Handlers\InvoiceService.cs" />
     <Compile Include="Invoice\PreInvoiceCreate.cs" />
     <Compile Include="PluginBase.cs" />

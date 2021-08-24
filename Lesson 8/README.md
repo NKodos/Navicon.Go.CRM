@@ -21,4 +21,4 @@
 
 
 Documentation:
-https://docs.microsoft.com/en-us/dynamics365/customerengagement/on-premises/developer/overview?view=op-9-1
+https://docs.microsoft.com/en-us/dotnet/api/microsoft.xrm.sdk?view=dynamics-general-ce-9
