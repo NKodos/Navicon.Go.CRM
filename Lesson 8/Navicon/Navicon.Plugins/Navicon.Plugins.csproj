@@ -69,6 +69,8 @@
     <Compile Include="Agreement\Handlers\AgreementService.cs" />
     <Compile Include="Agreement\PreAgreementCreate.cs" />
     <Compile Include="Invoice\Handlers\InvoiceService.cs" />
+    <Compile Include="Invoice\PreInvoiceUdate.cs" />
+    <Compile Include="Invoice\PreInvoiceDelete.cs" />
     <Compile Include="Invoice\PreInvoiceCreate.cs" />
     <Compile Include="PluginBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
