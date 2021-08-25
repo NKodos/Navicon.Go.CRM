@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Query;
 using Navicon.Common.Entities;
 using Navicon.Plugins.Agreement.Handlers;
 

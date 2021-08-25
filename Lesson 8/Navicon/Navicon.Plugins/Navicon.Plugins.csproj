@@ -70,6 +70,9 @@
     <Compile Include="Agreement\Handlers\AgreementService.cs" />
     <Compile Include="Agreement\PostAgreementCreate.cs" />
     <Compile Include="Agreement\PreAgreementCreate.cs" />
+    <Compile Include="Communication\Handler\CommunicationService.cs" />
+    <Compile Include="Communication\PreCommunicationCreate.cs" />
+    <Compile Include="Communication\PreCommunicationUpdate.cs" />
     <Compile Include="Invoice\Handlers\PostInvoiceService.cs" />
     <Compile Include="Invoice\Handlers\InvoiceService.cs" />
     <Compile Include="Invoice\PostInvoiceUpdate.cs" />
