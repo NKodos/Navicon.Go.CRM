@@ -66,7 +66,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Agreement\Handlers\PostAgreementService.cs" />
     <Compile Include="Agreement\Handlers\AgreementService.cs" />
+    <Compile Include="Agreement\PostAgreementCreate.cs" />
     <Compile Include="Agreement\PreAgreementCreate.cs" />
     <Compile Include="Invoice\Handlers\PostInvoiceService.cs" />
     <Compile Include="Invoice\Handlers\InvoiceService.cs" />
