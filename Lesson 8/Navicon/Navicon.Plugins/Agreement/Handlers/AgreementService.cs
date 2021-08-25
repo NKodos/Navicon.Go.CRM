@@ -44,9 +44,9 @@ namespace Navicon.Plugins.Agreement.Handlers
 
         }
 
-        public new_agreement RecalculateFactSumma(Guid agreementId, Money summa)
+        public new_agreement RecalculateFactSumma(Guid id, Money summa)
         {
-            var agreement = _service.Retrieve(new_agreement.EntityLogicalName, agreementId,
+            var agreement = _service.Retrieve(new_agreement.EntityLogicalName, id,
                 new ColumnSet(new_agreement.Fields.new_factsumma)).ToEntity<new_agreement>();
             if (agreement == null) return new new_agreement();
 
@@ -54,6 +54,20 @@ namespace Navicon.Plugins.Agreement.Handlers
             result.new_factsumma = result.new_factsumma ?? new Money();
             result.new_factsumma.Value += summa.Value;
             return result;
+        }
+
+        public bool IsFactSummaGreaterAgreementSumma(Guid id)
+        {
+            var conlumns = new ColumnSet(new_agreement.Fields.new_factsumma, 
+                new_agreement.Fields.new_summa);
+            var agreement = _service.Retrieve(new_agreement.EntityLogicalName, id, conlumns)
+                .ToEntity<new_agreement>();
+
+            if (agreement == null) throw new Exception($"Договор с id={id} не найден");
+            agreement.new_factsumma = agreement.new_factsumma ?? new Money();
+            agreement.new_summa = agreement.new_summa ?? new Money();
+
+            return agreement.new_factsumma.Value > agreement.new_summa.Value;
         }
     }
 }

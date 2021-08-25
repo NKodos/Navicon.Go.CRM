@@ -5,7 +5,7 @@ using Navicon.Plugins.Invoice.Handlers;
 
 namespace Navicon.Plugins.Invoice
 {
-    public sealed class PreInvoiceUpdate : PluginBase
+    public sealed class PostInvoiceCreate : PluginBase
     {
         public override void Execute(IServiceProvider serviceProvider)
         {
@@ -13,9 +13,8 @@ namespace Navicon.Plugins.Invoice
 
             try
             {
-                var invoiceService = new InvoiceService(serviceInfo.OrganizationService);
-                invoiceService.UpdateAgreementPaidAmount(serviceInfo.TargetEntity);
-                invoiceService.CheckAgreementPaidAmount(serviceInfo.TargetEntity);
+                var service = new PostInvoiceService(serviceInfo.OrganizationService);
+                service.SetPayDate(serviceInfo.TargetEntity);
             }
             catch (Exception ex)
             {

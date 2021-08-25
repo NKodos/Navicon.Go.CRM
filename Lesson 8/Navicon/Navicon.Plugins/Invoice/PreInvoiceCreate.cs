@@ -16,6 +16,7 @@ namespace Navicon.Plugins.Invoice
                 var invoiceService = new InvoiceService(serviceInfo.OrganizationService);
                 invoiceService.CheckInvoiceType(serviceInfo.TargetEntity);
                 invoiceService.AddAgreementPaidAmount(serviceInfo.TargetEntity);
+                invoiceService.CheckAgreementPaidAmount(serviceInfo.TargetEntity);
             }
             catch (Exception ex)
             {
