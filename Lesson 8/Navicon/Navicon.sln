@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navicon.Common", "Navicon.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navicon.TestConsole", "Navicon.TestConsole\Navicon.TestConsole.csproj", "{9FCCFCEF-11CF-4719-A4AE-E4BDDFDB4CC2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navicon.Workflow", "Navicon.Workflow\Navicon.Workflow.csproj", "{0D31C728-CCA5-4749-8F2D-DB51A76FDC28}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9FCCFCEF-11CF-4719-A4AE-E4BDDFDB4CC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FCCFCEF-11CF-4719-A4AE-E4BDDFDB4CC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FCCFCEF-11CF-4719-A4AE-E4BDDFDB4CC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D31C728-CCA5-4749-8F2D-DB51A76FDC28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D31C728-CCA5-4749-8F2D-DB51A76FDC28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D31C728-CCA5-4749-8F2D-DB51A76FDC28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D31C728-CCA5-4749-8F2D-DB51A76FDC28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
