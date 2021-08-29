@@ -76,7 +76,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgreementActivities\AgreementCreationPaymentScheduleActivity.cs" />
+    <Compile Include="AgreementActivities\AgreementDeletingInvoiceActivity.cs" />
     <Compile Include="AgreementActivities\AgreementValidationActivity.cs" />
+    <Compile Include="AgreementActivities\Handler\AgreementService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
