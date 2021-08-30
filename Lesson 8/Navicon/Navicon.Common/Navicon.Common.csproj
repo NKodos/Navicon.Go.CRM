@@ -68,7 +68,9 @@
     <Compile Include="Entities\new_invoice.cs" />
     <Compile Include="Entities\OptionSets.cs" />
     <Compile Include="Entities\Query\AgreementQuery.cs" />
+    <Compile Include="Entities\Query\CommunicationQuery.cs" />
     <Compile Include="Entities\Query\EntityQuery.cs" />
+    <Compile Include="Entities\Query\EntityQueryExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

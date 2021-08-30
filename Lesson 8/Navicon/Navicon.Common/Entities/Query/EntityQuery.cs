@@ -5,44 +5,23 @@ namespace Navicon.Common.Entities.Query
 {
     public class EntityQuery
     {
-        public QueryExpression Expression { get; set; }
+        public readonly string EntityName;
 
-        public IOrganizationService Service { get; private set; }
+        public IOrganizationService Service { get; protected set; }
 
-        public EntityQuery(IOrganizationService service)
+        public EntityQuery(IOrganizationService service, string entityName)
         {
             Service = service;
-            Expression = new QueryExpression();
+            EntityName = entityName;
         }
 
-        public EntityQuery(IOrganizationService service, string entityLogicalName) : this(service)
+        public bool HasData(params ConditionExpression[] conditionExpression)
         {
-            Expression.EntityName = entityLogicalName;
-        }
+            var query = new EntityQueryExpression(Service, EntityName, 1);
+            query.AddCondition(conditionExpression);
 
-        public EntityQuery(IOrganizationService service, string entityLogicalName, int topCount) : this (service, entityLogicalName)
-        {
-            Expression.TopCount = topCount;
-        }
-
-        public void AddColumns(params string[] columns)
-        {
-            Expression.ColumnSet = new ColumnSet(columns);
-        }
-
-        public void AddCondition(string attributeName, ConditionOperator conditionOperator, params object[] values)
-        {
-            Expression.Criteria.AddCondition(attributeName, conditionOperator, values);
-        }
-
-        public void AddCondition(ConditionExpression conditionExpression)
-        {
-            Expression.Criteria.AddCondition(conditionExpression);
-        }
-
-        public EntityCollection RetrieveMultiple()
-        {
-            return Service.RetrieveMultiple(Expression);
+            var entityCollection = query.RetrieveMultiple();
+            return entityCollection.Entities.Count > 0;
         }
     }
 }

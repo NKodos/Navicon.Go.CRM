@@ -2,9 +2,13 @@
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Navicon.Common.Entities;
+using Navicon.Common.Entities.Query;
 
 namespace Navicon.Plugins.Communication.Handler
 {
+    /// <summary>
+    /// Сервис для работы с данными объекта Средство коммуникации
+    /// </summary>
     public class CommunicationService
     {
         private readonly IOrganizationService _service;
@@ -14,6 +18,10 @@ namespace Navicon.Plugins.Communication.Handler
             _service = organizationService;
         }
 
+        /// <summary>
+        /// Проверяет существует ли основное средство связи у выбранного контакта
+        /// с выбранным типом (E-mail / Телефон)
+        /// </summary>
         public void CheckCommunicationMain(new_communication targetCommunication)
         {
             var columns = new ColumnSet(new_communication.Fields.new_type,
@@ -24,27 +32,15 @@ namespace Navicon.Plugins.Communication.Handler
                     targetCommunication.Id, columns)
                 .ToEntity<new_communication>();
 
-            var type = targetCommunication.new_type ?? currentCommunication.new_type;
-            if (type == null) return;
+            var communivationType = targetCommunication.new_type ?? currentCommunication.new_type;
+            if (communivationType == null) return;
             var main = targetCommunication.new_main ?? currentCommunication.new_main;
             var contactRef = targetCommunication.new_contactid ?? currentCommunication.new_contactid;
 
-            if (main.GetValueOrDefault())
+            if (main.GetValueOrDefault() &&
+                IsExistMainCommunication(contactRef.Id, communivationType.Value))
             {
-                var query = new QueryExpression(new_communication.EntityLogicalName)
-                {
-                    ColumnSet = new ColumnSet(new_communication.Fields.Id),
-                    NoLock = true,
-                    TopCount = 1
-                };
-                query.Criteria.AddCondition(new_communication.Fields.new_contactid, ConditionOperator.Equal, contactRef.Id);
-                query.Criteria.AddCondition(new_communication.Fields.new_type, ConditionOperator.Equal, (int)type.Value);
-
-                var entityCollection = _service.RetrieveMultiple(query);
-                if (entityCollection.Entities.Count > 0)
-                {
-                    throw new Exception("Основное средство связи с таким типом у выбранного контакта уже существует");
-                }
+                throw new Exception("Основное средство связи с таким типом у выбранного контакта уже существует");
             }
         }
 
@@ -56,23 +52,23 @@ namespace Navicon.Plugins.Communication.Handler
 
             if (targetCommunication.new_main.GetValueOrDefault())
             {
-                var query = new QueryExpression(new_communication.EntityLogicalName)
-                {
-                    ColumnSet = new ColumnSet(new_communication.Fields.Id),
-                    NoLock = true,
-                    TopCount = 1
-                };
-                query.Criteria.AddCondition(new_communication.Fields.new_contactid,
-                    ConditionOperator.Equal, targetCommunication.new_contactid.Id);
-                query.Criteria.AddCondition(new_communication.Fields.new_type,
-                    ConditionOperator.Equal, (int)targetCommunication.new_type.Value);
-
-                var entityCollection = _service.RetrieveMultiple(query);
-                if (entityCollection.Entities.Count > 0)
+                if (IsExistMainCommunication(targetCommunication.new_contactid.Id, targetCommunication.new_type.Value))
                 {
                     throw new Exception("Основное средство связи с таким типом у выбранного контакта уже существует");
                 }
             }
+        }
+
+        /// <summary>
+        /// True - если уже существует главное средство связи с переданным типом у контакта
+        /// </summary>
+        private bool IsExistMainCommunication(Guid contactId, new_communication_new_type type)
+        {
+            var query = new CommunicationQuery(_service);
+            return query.HasData(
+                new ConditionExpression(new_communication.Fields.new_contactid, ConditionOperator.Equal, contactId),
+                new ConditionExpression(new_communication.Fields.new_type, ConditionOperator.Equal, (int)type),
+                new ConditionExpression(new_communication.Fields.new_main, ConditionOperator.Equal, true));
         }
     }
 }
