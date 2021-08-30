@@ -1,10 +1,6 @@
 var Navicon = Navicon || {};
 Navicon.nav_agreement = Navicon.nav_agreement || {};
 
-const creditAttributeNames = ['new_creditperiod', 'new_creditamount',
-    'new_fullcreditamount', 'new_initialfee', 'new_factsumma',
-    'new_paymentplandate'];
-
 // Task 1
 // При создании объекта Договор, сразу после открытия карточки доступны для редактирования 
 // поля: номер, дата договора, контакт и модель. Остальные поля - скрыты. 
@@ -15,20 +11,15 @@ Navicon.nav_agreement.task1 = (function () {
     const enabledControlsForCreating = ['new_number', 'new_date',
         'new_contact', 'new_autoid'];
 
-    var disableCreationFormAttributes = function (context) {
-        let formContext = context.getFormContext();
-        let controls = formContext.getControl();
+    const disableCreationFormAttributes = function (context) {
+        const formContext = context.getFormContext();
 
-        if (controls == null) return;
-
-        controls.forEach(control => {
-            let controlName = control.getName();
-            if (!enabledControlsForCreating.includes(controlName)) {
-                control.setDisabled(true);
-            }
+        enabledControlsForCreating.forEach(controlName => {
+            const control = formContext.getControl(controlName);
+            control.setDisabled(true);
         });
 
-        let creditTab = formContext.ui.tabs.get('Credit');
+        const creditTab = formContext.ui.tabs.get('Credit');
         if (creditTab != null) {
             creditTab.setVisible(false);
         }
@@ -37,8 +28,8 @@ Navicon.nav_agreement.task1 = (function () {
     return {
         onLoad: function (context) {
 
-            let formContext = context.getFormContext();
-            let formType = formContext.ui.getFormType();
+            const formContext = context.getFormContext();
+            const formType = formContext.ui.getFormType();
 
             if (formType == creatingFormType) {
                 disableCreationFormAttributes(context);
@@ -53,14 +44,14 @@ Navicon.nav_agreement.task1 = (function () {
 
 Navicon.nav_agreement.task2 = (function () {
 
-    var autoAndContactOnChange = function (context) {
-        let formContext = context.getFormContext();
+    const autoAndContactOnChange = function (context) {
+        const formContext = context.getFormContext();
 
-        let contactAttrValue = formContext.getAttribute('new_contact').getValue();
-        let autoidAttrValue = formContext.getAttribute('new_autoid').getValue();
+        const contactAttrValue = formContext.getAttribute('new_contact').getValue();
+        const autoidAttrValue = formContext.getAttribute('new_autoid').getValue();
 
-        let creditTab = formContext.ui.tabs.get('Credit');
-        let creditidControl = formContext.getControl('new_creditid');
+        const creditTab = formContext.ui.tabs.get('Credit');
+        const creditidControl = formContext.getControl('new_creditid');
 
         if (contactAttrValue && autoidAttrValue) {
             creditTab.setVisible(true);
@@ -74,10 +65,10 @@ Navicon.nav_agreement.task2 = (function () {
     return {
         onLoad: function (context) {
 
-            let formContext = context.getFormContext();
+            const formContext = context.getFormContext();
 
-            let contactAttr = formContext.getAttribute('new_contact');
-            let autoidAttr = formContext.getAttribute('new_autoid');
+            const contactAttr = formContext.getAttribute('new_contact');
+            const autoidAttr = formContext.getAttribute('new_autoid');
 
             if (contactAttr) {
                 contactAttr.addOnChange(autoAndContactOnChange);
@@ -95,11 +86,11 @@ Navicon.nav_agreement.task2 = (function () {
 
 Navicon.nav_agreement.task3 = (function () {
 
-    var creditidOnChange = function (context) {
+    const creditidOnChange = function (context) {
 
-        let formContext = context.getFormContext();
-        let creditAttr = formContext.getAttribute('new_creditid');
-        let creditValue = creditAttr.getValue();
+        const formContext = context.getFormContext();
+        const creditAttr = formContext.getAttribute('new_creditid');
+        const creditValue = creditAttr.getValue();
 
         console.log(creditValue);
 
@@ -110,15 +101,18 @@ Navicon.nav_agreement.task3 = (function () {
         }
     };
 
-    var disableCreditControls = function (context, bool) {
+    const disableCreditControls = function (context, isDisable) {
 
-        let formContext = context.getFormContext();
+        const formContext = context.getFormContext();
+        const creditAttributeNames = ['new_creditperiod', 'new_creditamount',
+        'new_fullcreditamount', 'new_initialfee', 'new_factsumma',
+        'new_paymentplandate'];
 
         creditAttributeNames.forEach(controlName => {
-            var control = formContext.getControl(controlName);
+            const control = formContext.getControl(controlName);
 
             if (control) {
-                control.setDisabled(bool);
+                control.setDisabled(isDisable);
             }
         });
     }
@@ -126,8 +120,8 @@ Navicon.nav_agreement.task3 = (function () {
     return {
         onLoad: function (context) {
 
-            let formContext = context.getFormContext();
-            let creditAttr = formContext.getAttribute('new_creditid');
+            const formContext = context.getFormContext();
+            const creditAttr = formContext.getAttribute('new_creditid');
 
             creditAttr.addOnChange(creditidOnChange);
             creditidOnChange(context);
@@ -143,18 +137,18 @@ Navicon.nav_agreement.task3 = (function () {
 
 Navicon.nav_agreement.task4 = (function () {
 
-    let filterCredit = function (context) {
-        let formContext = context.getFormContext();
-        let autoidAttr = formContext.getAttribute('new_autoid');
-        let autoidValue = autoidAttr.getValue();
+    const filterCredit = function (context) {
+        const formContext = context.getFormContext();
+        const autoidAttr = formContext.getAttribute('new_autoid');
+        const autoidValue = autoidAttr.getValue();
 
         if (autoidValue == null || autoidValue.length < 1 || autoidValue[0] == null) return;
 
-        var relationshipPromise = Xrm.WebApi.retrieveMultipleRecords('new_new_credit_new_auto', '?$filter=new_autoid eq ' +
+        const relationshipPromise = Xrm.WebApi.retrieveMultipleRecords('new_new_credit_new_auto', '?$filter=new_autoid eq ' +
             autoidValue[0].id);
 
         let filter = "<filter type='and'><condition attribute='new_creditid' operator='in'>";
-        let control = formContext.getControl('new_creditid');
+        const control = formContext.getControl('new_creditid');
 
         relationshipPromise.then(
             function (entityResult) {
@@ -172,7 +166,7 @@ Navicon.nav_agreement.task4 = (function () {
 
             },
             function (error) {
-                console.error(error.message);
+                console.error(`При добавлении фильтра в поле new_creditid: ${error.message}`);
             }
         );
     };
@@ -194,16 +188,16 @@ Navicon.nav_agreement.task4 = (function () {
 Navicon.nav_agreement.task5 = (function () {
     const alertDelay = 5000;
 
-    var dateStartOnChange = function (context) {
-        let datesIsNotValid = !isDateEndOneYearLaterThanDateStart(context);
+    const dateStartOnChange = function (context) {
+        const datesIsNotValid = !isDateEndOneYearLaterThanDateStart(context);
 
         if (datesIsNotValid) {
             showNotValidDatesNotification(3);
         }
     };
 
-    var entityOnSave = function (context) {
-        var datesIsNotValid = !isDateEndOneYearLaterThanDateStart(context);
+    const entityOnSave = function (context) {
+        const datesIsNotValid = !isDateEndOneYearLaterThanDateStart(context);
 
         if (datesIsNotValid) {
             context.getEventArgs().preventDefault();
@@ -211,19 +205,22 @@ Navicon.nav_agreement.task5 = (function () {
         }
     };
 
-    var isDateEndOneYearLaterThanDateStart = function (context) {
-        let formContext = context.getFormContext();
-        let dateStartAttr = formContext.getAttribute('new_datestart');
-        let dateEndAttr = formContext.getAttribute('new_dateend');
-        let dateStartValue = dateStartAttr.getValue();
-        let dateEndValue = dateEndAttr.getValue();
+    const isDateEndOneYearLaterThanDateStart = function (context) {
+        const formContext = context.getFormContext();
+        const dateStartAttr = formContext.getAttribute('new_datestart');
+        const dateEndAttr = formContext.getAttribute('new_dateend');
+        const dateStartValue = dateStartAttr.getValue();
+        const dateEndValue = dateEndAttr.getValue();
+        console.log(`dateStart=${dateStartValue}\n
+        dateEnd=${dateEndValue}`);
 
-        let dateDiff = dateEndValue.getFullYear() - dateStartValue.getFullYear();
+        const dateDiff = dateEndValue.getFullYear() - dateStartValue.getFullYear();
+        console.log(`dateDiff=${dateDiff}`);
         return dateDiff >= 1;
     };
 
-    var showNotValidDatesNotification = function (level) {
-        let notification =
+    const showNotValidDatesNotification = function (level) {
+        const notification =
         {
             type: 2,
             level: level,
@@ -239,16 +236,16 @@ Navicon.nav_agreement.task5 = (function () {
                 }, alertDelay);
             },
             function (error) {
-                console.log(error.message);
+                console.log('При отображении уведомления: ' + error.message);
             }
         );
     };
 
     return {
         onLoad: function (context) {
-            let formContext = context.getFormContext();
-            let dateStartAttr = formContext.getAttribute('new_datestart');
-            let dateEndAttr = formContext.getAttribute('new_dateend');
+            const formContext = context.getFormContext();
+            const dateStartAttr = formContext.getAttribute('new_datestart');
+            const dateEndAttr = formContext.getAttribute('new_dateend');
 
             dateStartAttr.addOnChange(dateStartOnChange);
             dateEndAttr.addOnChange(dateStartOnChange);
@@ -263,20 +260,20 @@ Navicon.nav_agreement.task5 = (function () {
 
 Navicon.nav_agreement.task6 = (function () {
 
-    var numberOnChange = function (context) {
-        let formContext = context.getFormContext();
-        let numberAttr = formContext.getAttribute('new_number');
-        let numberValue = numberAttr.getValue();
+    const numberOnChange = function (context) {
+        const formContext = context.getFormContext();
+        const numberAttr = formContext.getAttribute('new_number');
+        const numberValue = numberAttr.getValue();
 
         if (numberValue == null) return;
-        let resultNumber = numberValue.replace(/[^\d\-]/g, '');
+        const resultNumber = numberValue.replace(/[^\d\-]/g, '');
         numberAttr.setValue(resultNumber);
     };
 
     return {
         onLoad: function (context) {
-            let formContext = context.getFormContext();
-            let numberAttr = formContext.getAttribute('new_number');
+            const formContext = context.getFormContext();
+            const numberAttr = formContext.getAttribute('new_number');
 
             numberAttr.addOnChange(numberOnChange);
         }
@@ -292,27 +289,25 @@ Navicon.nav_agreement.task6 = (function () {
 
 Navicon.nav_agreement.task7 = (function () {
 
-    var typeOnChange = function (context) {
-        let formContext = context.getFormContext();
-        let typeAttr = formContext.getAttribute('new_type');
-        let option = typeAttr.getSelectedOption();
-
-        option = option || { text: '' };
-        setVisibleControlsByType(context, option.text);
+    const typeOnChange = function (context) {
+        const formContext = context.getFormContext();
+        const typeAttr = formContext.getAttribute('new_type');
+        setVisibleControlsByType(context, typeAttr.getValue());
     };
 
-    var setVisibleControlsByType = function (context, typeValue) {
-        let formContext = context.getFormContext();
-        let phoneControl = formContext.getControl('new_phone');
-        let emailControl = formContext.getControl('new_email');
+    const setVisibleControlsByType = function (context, typeValue) {
+        const formContext = context.getFormContext();
+        const phoneControl = formContext.getControl('new_phone');
+        const emailControl = formContext.getControl('new_email');
 
         switch (typeValue) {
-            case 'Телефон':
+            // Телефон
+            case 100000000:
                 phoneControl.setVisible(true);
                 emailControl.setVisible(false);
                 break;
-
-            case 'E-mail':
+            // E-mail
+            case 100000001:
                 phoneControl.setVisible(false);
                 emailControl.setVisible(true);
                 break;
@@ -325,8 +320,8 @@ Navicon.nav_agreement.task7 = (function () {
 
     return {
         onLoad: function (context) {
-            let formContext = context.getFormContext();
-            let typeAttr = formContext.getAttribute('new_type');
+            const formContext = context.getFormContext();
+            const typeAttr = formContext.getAttribute('new_type');
             let option = typeAttr.getSelectedOption();
 
             option = option || { text: '' };
@@ -344,21 +339,21 @@ Navicon.nav_agreement.task7 = (function () {
 
 Navicon.nav_agreement.task8 = (function () {
 
-    var usedChange = function (context) {
-        let formContext = context.getFormContext();
-        let usedAttr = formContext.getAttribute('new_used');
+    const usedChange = function (context) {
+        const formContext = context.getFormContext();
+        const usedAttr = formContext.getAttribute('new_used');
 
-        let value = usedAttr.getValue();
+        const value = usedAttr.getValue();
         setVisibleControlsByType(context, value);
     };
 
-    var setVisibleControlsByType = function (context, boolValue) {
+    const setVisibleControlsByType = function (context, boolValue) {
         if (boolValue == null) return;
 
-        let formContext = context.getFormContext();
-        let kmControl = formContext.getControl('new_km');
-        let ownerscountControl = formContext.getControl('new_ownerscount');
-        let isdamagedControl = formContext.getControl('new_isdamaged');
+        const formContext = context.getFormContext();
+        const kmControl = formContext.getControl('new_km');
+        const ownerscountControl = formContext.getControl('new_ownerscount');
+        const isdamagedControl = formContext.getControl('new_isdamaged');
 
         kmControl.setVisible(boolValue);
         ownerscountControl.setVisible(boolValue);
@@ -367,10 +362,10 @@ Navicon.nav_agreement.task8 = (function () {
 
     return {
         onLoad: function (context) {
-            let formContext = context.getFormContext();
-            let usedAttr = formContext.getAttribute('new_used');
+            const formContext = context.getFormContext();
+            const usedAttr = formContext.getAttribute('new_used');
 
-            let value = usedAttr.getValue();
+            const value = usedAttr.getValue();
             setVisibleControlsByType(context, value);
 
             usedAttr.addOnChange(usedChange);

@@ -10,56 +10,54 @@ Navicon.lesson_7 = Navicon.lesson_7 || {};
 Navicon.lesson_7.task1 = (function () {
     const alertDelay = 5000;
 
-    var creditIdOnChange = function (context) {
-        let isDateNotValid = !isDateValid(context);
-
-        if (isDateNotValid) {
+    const creditIdOnChange = function (context) {
+        isDateValid(context, () => {
             showNotValidDatesNotification(3);
-        }
+        });
     };
 
-    var entityOnSave = function (context) {
-        let isDateNotValid = !isDateValid(context);
-
-        if (isDateNotValid) {
+    const entityOnSave = function (context) {
+        isDateValid(context, () => {
             showNotValidDatesNotification(2);
-            //context.getEventArgs().preventDefault();
-        }
+            context.getEventArgs().preventDefault();
+        });
     };
 
-    var isDateValid = function (context) {
-        let formContext = context.getFormContext();
-        let creditIdAttr = formContext.getAttribute('new_creditid');
+    const isDateValid = function (context, failFunction) {
+        const formContext = context.getFormContext();
+        const creditIdAttr = formContext.getAttribute('new_creditid');
         if (creditIdAttr == null) return;
 
-        let creditIdValue = creditIdAttr.getValue();
+        const creditIdValue = creditIdAttr.getValue();
         console.log("creditid =", creditIdValue);
         if (creditIdValue == null || creditIdValue.length < 1) return;
 
-        let creditId = creditIdValue[0].id;
-        let creditPromise = Xrm.WebApi.retrieveRecord('new_credit', creditId, '?$select=new_dateend');
+        const creditId = creditIdValue[0].id;
+        const creditPromise = Xrm.WebApi.retrieveRecord('new_credit', creditId, '?$select=new_dateend');
 
         creditPromise.then(
             function (entity) {
-                let dateAttr = formContext.getAttribute('new_date');
+                const dateAttr = formContext.getAttribute('new_date');
                 if (dateAttr == null) return;
-                let dateValue = dateAttr.getValue();
+                const dateValue = dateAttr.getValue();
 
-                var dateEnd = new Date(entity.new_dateend);
-                return isFirstDateGreaterThanSecondDate(dateEnd, dateValue);
+                const dateEnd = new Date(entity.new_dateend);
+                if (!isFirstDateGreaterThanSecondDate(dateEnd, dateValue)) {
+                    failFunction();
+                }
             },
             function (error) {
-                console.log(error.message);
+                console.log('Попытка валидации даты кредита: ' + error.message);
             }
         );
     };
 
-    var isFirstDateGreaterThanSecondDate = function (firstDate, secondDate) {
+    const isFirstDateGreaterThanSecondDate = function (firstDate, secondDate) {
         return firstDate.getTime() > secondDate.getTime();
     };
 
-    var showNotValidDatesNotification = function (level) {
-        let notification =
+    const showNotValidDatesNotification = function (level) {
+        const notification =
         {
             type: 2,
             level: level,
@@ -76,7 +74,7 @@ Navicon.lesson_7.task1 = (function () {
                 }, alertDelay);
             },
             function (error) {
-                console.log(error.message);
+                console.log('Отображение уведомления: ' + error.message);
             }
         );
     };
@@ -100,12 +98,13 @@ Navicon.lesson_7.task1 = (function () {
 Navicon.lesson_7.task2 = (function () {
     const alertDelay = 5000;
 
-    var creditIdOnChange = function (context) {
-        let formContext = context.getFormContext();
-        let creditIdAttr = formContext.getAttribute('new_creditid');
-        let creditPeriodAttr = formContext.getAttribute('new_creditperiod');
+    const creditIdOnChange = function (context) {
+        const formContext = context.getFormContext();
+        const creditIdAttr = formContext.getAttribute('new_creditid');
+        const creditPeriodAttr = formContext.getAttribute('new_creditperiod');
+
         if (creditIdAttr == null) return;
-        let creditIdValue = creditIdAttr.getValue();
+        const creditIdValue = creditIdAttr.getValue();
         console.log("creditid =", creditIdValue);
 
         if (creditIdValue == null || creditIdValue.length < 1) {
@@ -113,34 +112,34 @@ Navicon.lesson_7.task2 = (function () {
             return;
         }
 
-        let creditId = creditIdValue[0].id;
-        let creditPromise = Xrm.WebApi.retrieveRecord('new_credit', creditId,
+        const creditId = creditIdValue[0].id;
+        const creditPromise = Xrm.WebApi.retrieveRecord('new_credit', creditId,
             '?$select=new_datestart, new_dateend');
 
         creditPromise.then(
             function (entity) {
 
-                let dateStart = new Date(entity.new_datestart);
-                let dateEnd = new Date(entity.new_dateend);
+                const dateStart = new Date(entity.new_datestart);
+                const dateEnd = new Date(entity.new_dateend);
 
-                let periodValue = GetCreditPeriod(dateEnd, dateStart);
+                const periodValue = getCreditPeriod(dateEnd, dateStart);
                 creditPeriodAttr.setValue(periodValue);
             },
             function (error) {
-                console.log(error.message);
+                console.log('При установки периода кредита: ' + error.message);
             }
         );
     };
 
-    var GetCreditPeriod = function (firstDate, secondDate) {
+    const getCreditPeriod = function (firstDate, secondDate) {
         return firstDate.getFullYear() - secondDate.getFullYear();
     };
 
     return {
         onLoad: function (context) {
 
-            let formContext = context.getFormContext();
-            let creditIdAttr = formContext.getAttribute('new_creditid');
+            const formContext = context.getFormContext();
+            const creditIdAttr = formContext.getAttribute('new_creditid');
             creditIdAttr.addOnChange(creditIdOnChange);
             creditIdOnChange(context);
         }
@@ -157,20 +156,20 @@ Navicon.lesson_7.task3 = (function () {
     const alertDelay = 5000;
 
     const autoIdOnChange = function (context) {
-        let formContext = context.getFormContext();
-        let autoIdAttr = formContext.getAttribute('new_autoid');
-        let summaAttr = formContext.getAttribute('new_summa');
+        const formContext = context.getFormContext();
+        const autoIdAttr = formContext.getAttribute('new_autoid');
+        const summaAttr = formContext.getAttribute('new_summa');
 
         if (autoIdAttr == null) return;
 
-        let autoIdValue = autoIdAttr.getValue();
+        const autoIdValue = autoIdAttr.getValue();
         if (autoIdValue == null || autoIdValue.length < 1) {
             summaAttr.setValue(null);
             return;
         }
 
-        let autoId = autoIdValue[0].id;
-        let autoPromise = Xrm.WebApi.retrieveRecord('new_auto', autoId,
+        const autoId = autoIdValue[0].id;
+        const autoPromise = Xrm.WebApi.retrieveRecord('new_auto', autoId,
             '?$select=new_used,new_amount&$expand=new_modelid($select=new_recommendedamount)');
 
         autoPromise.then(
@@ -185,17 +184,18 @@ Navicon.lesson_7.task3 = (function () {
                 }
             },
             function (error) {
-                console.log(error.message);
+                console.log('При расчете стоимости договора: ' + error.message);
             }
         );
     };
 
     return {
         onLoad: function (context) {
-
-            let formContext = context.getFormContext();
-            let autoIdAttr = formContext.getAttribute('new_autoid');
-            autoIdAttr.addOnChange(autoIdOnChange);
+            const formContext = context.getFormContext();
+            const autoIdAttr = formContext.getAttribute('new_autoid');
+            if (autoIdAttr != null) {
+                autoIdAttr.addOnChange(autoIdOnChange);
+            }
         }
     };
 })();

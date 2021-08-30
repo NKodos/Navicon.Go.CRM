@@ -5,6 +5,9 @@ using Navicon.Common.Entities;
 
 namespace Navicon.Plugins.Agreement.Handlers
 {
+    /// <summary>
+    /// Сервис для работы с договорами при Pre Operation
+    /// </summary>
     public class AgreementService
     {
         private readonly IOrganizationService _service;
@@ -14,10 +17,12 @@ namespace Navicon.Plugins.Agreement.Handlers
             _service = service ?? throw new ArgumentNullException(nameof(service));
         }
 
-        public void CheckContactFirstAgreementDate(new_agreement targetEntity)
+        public void UpdateContactFirstAgreementDate(new_agreement targetEntity)
         {
             
             var contactRef = targetEntity.new_contact;
+            if (contactRef == null) return;
+
             var contact = _service.Retrieve(contactRef.LogicalName, contactRef.Id,
                 new ColumnSet(Contact.Fields.new_date)).ToEntity<Contact>();
 
@@ -63,9 +68,9 @@ namespace Navicon.Plugins.Agreement.Handlers
             var agreement = _service.Retrieve(new_agreement.EntityLogicalName, id, conlumns)
                 .ToEntity<new_agreement>();
 
-            if (agreement == null) throw new Exception($"Договор с id={id} не найден");
-            agreement.new_factsumma = agreement.new_factsumma ?? new Money();
-            agreement.new_summa = agreement.new_summa ?? new Money();
+
+            if (agreement.new_factsumma == null) return false;
+            if (agreement.new_summa == null) return true;
 
             return agreement.new_factsumma.Value > agreement.new_summa.Value;
         }

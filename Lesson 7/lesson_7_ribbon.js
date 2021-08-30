@@ -15,26 +15,26 @@ Navicon.lesson_7.task4 = (function () {
     const alertDelay = 5000;
 
     const calculateCreditAmount = function () {
-        let creditAmountAttr = Xrm.Page.getAttribute('new_creditamount');
-        let summaAttr = Xrm.Page.getAttribute('new_summa');
-        let initialFeeAttr = Xrm.Page.getAttribute('new_initialfee');
+        const creditAmountAttr = Xrm.Page.getAttribute('new_creditamount');
+        const summaAttr = Xrm.Page.getAttribute('new_summa');
+        const initialFeeAttr = Xrm.Page.getAttribute('new_initialfee');
 
         if (creditAmountAttr == null || summaAttr == null) return;
-        let creditAmount = summaAttr.getValue() - initialFeeAttr.getValue();
+        const creditAmount = summaAttr.getValue() - initialFeeAttr.getValue();
         creditAmountAttr.setValue(creditAmount);
     };
 
     const calculateFullCreditAmount = function () {
-        let creditIdAttr = Xrm.Page.getAttribute('new_creditid');
-        let fullCreditAmountAttr = Xrm.Page.getAttribute('new_fullcreditamount');
-        let creditPeriodAttr = Xrm.Page.getAttribute('new_creditperiod');
-        let creditAmountAttr = Xrm.Page.getAttribute('new_creditamount');
+        const creditIdAttr = Xrm.Page.getAttribute('new_creditid');
+        const fullCreditAmountAttr = Xrm.Page.getAttribute('new_fullcreditamount');
+        const creditPeriodAttr = Xrm.Page.getAttribute('new_creditperiod');
+        const creditAmountAttr = Xrm.Page.getAttribute('new_creditamount');
 
         console.log(fullCreditAmountAttr, creditPeriodAttr);
         if (fullCreditAmountAttr == null || creditPeriodAttr == null) return;
 
-        let creditPeriodValue = creditPeriodAttr.getValue();
-        let creditAmountValue = creditAmountAttr.getValue();
+        const creditPeriodValue = creditPeriodAttr.getValue();
+        const creditAmountValue = creditAmountAttr.getValue();
 
         if (creditPeriodValue == null ||
             creditPeriodValue == 0 ||
@@ -44,7 +44,7 @@ Navicon.lesson_7.task4 = (function () {
             return;
         }
 
-        let creditIdValue = creditIdAttr.getValue();
+        const creditIdValue = creditIdAttr.getValue();
         if (creditIdValue == null || creditIdValue.length < 1) return;
 
         if (creditIdValue == null) {
@@ -52,24 +52,24 @@ Navicon.lesson_7.task4 = (function () {
             return;
         }
 
-        let creditPromise = Xrm.WebApi.retrieveRecord('new_credit', creditIdValue[0].id,
+        const creditPromise = Xrm.WebApi.retrieveRecord('new_credit', creditIdValue[0].id,
             '?$select=new_persent');
 
         creditPromise.then(
             function (creditEntity) {
-                let result = (creditEntity.new_persent / 100 * 
+                const result = (creditEntity.new_persent / 100 * 
                     creditPeriodValue * creditAmountValue) + creditAmountValue;
 
                 fullCreditAmountAttr.setValue(result);
             },
             function (error) {
-                console.log(error.message);
+                console.log('При подсчете полной стоимости кредита' + error.message);
             }
         );
     };
 
-    var showNotification = function (message, level) {
-        let notification =
+    const showNotification = function (message, level) {
+        const notification =
         {
             type: 2,
             level: level,
@@ -85,14 +85,14 @@ Navicon.lesson_7.task4 = (function () {
                 }, alertDelay);
             },
             function (error) {
-                console.log(error.message);
+                console.log('При отображении уведомления: ' + error.message);
             }
         );
     };
 
     return {
         calculateCreditSumm: function () {
-            let creditIdAttr = Xrm.Page.getAttribute('new_creditid');
+            const creditIdAttr = Xrm.Page.getAttribute('new_creditid');
             if (creditIdAttr == null || creditIdAttr.getValue() == null) return;
 
             calculateCreditAmount();

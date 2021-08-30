@@ -15,7 +15,7 @@ namespace Navicon.Plugins.Agreement
             try
             {
                 var service = new AgreementService(serviceInfo.OrganizationService);
-                service.CheckContactFirstAgreementDate(serviceInfo.TargetEntity);
+                service.UpdateContactFirstAgreementDate(serviceInfo.TargetEntity);
             }
             catch (Exception ex)
             {

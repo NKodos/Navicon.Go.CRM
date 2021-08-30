@@ -1,15 +1,8 @@
 var Navicon = Navicon || {};
 
-// Task
-// 1. +++Создать новый js ресурс (new_relationship_credit_model_iframe.js)
-// 2. +++Создать html страницу (new_relationship_credit_model_iframe.html), 
-// подключить скрипты, добавить на форму.
-// 3. +++Получить данные и сформировать массив данных в скрипте.
-// 4. Создать таблицу в HTML странице и оформить ее по стилю с CRM
-// 5. Отобразить данные в таблице.
-// 6. Реализовать события нажатия на сущности модели и кредитной программы. 
-// Событие должно открывать отдельные окна сущностей.
-
+// Объект, для iframe страницы моделей, который загружает
+// информацию в таблицу, отображающую автомобили и кредные программы,
+// в которых учавствуют соответствующие автомобили
 Navicon.new_relationship_credit_model_iframe = (function () {
 
     return {
@@ -34,7 +27,10 @@ Navicon.new_relationship_credit_model_iframe = (function () {
             promise.then(
                 function (resultArray) {
                     const resultArrayFiltered = resultArray.entities.filter(
-                        (entity, index) => entity.new_autoid.new_brendId.new_brandid.toLowerCase() === '76B4E016-E8FC-EB11-94EF-002248995083'.toLowerCase());
+                        function (entity, index) {
+                            entity.new_autoid.new_brendId.new_brandid.toLowerCase() === '76B4E016-E8FC-EB11-94EF-002248995083'.toLowerCase();
+                        }
+                    );
 
 
                     const gridObjectArray = resultArrayFiltered.map(
@@ -66,16 +62,3 @@ Navicon.new_relationship_credit_model_iframe = (function () {
         }
     };
 })();
-
-// let objArray = [
-//     { name: 'name1', age: 20 },
-//     { name: 'name2', age: 21 },
-//     { name: 'name2', age: 21 },
-//     { name: 'name3', age: 22 },
-// ];
-// console.log(objArray);
-
-// objArray = objArray.filter((item, index) => {
-//     return objArray.indexOf(item) === index;
-// });
-// console.log(objArray);

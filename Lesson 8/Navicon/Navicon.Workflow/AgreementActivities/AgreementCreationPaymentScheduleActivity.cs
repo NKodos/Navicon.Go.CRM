@@ -27,7 +27,7 @@ namespace Navicon.Workflow.AgreementActivities
             }
             catch (Exception ex)
             {
-                throw new InvalidWorkflowException(ex.Message);
+                throw new InvalidWorkflowException(ex.Message, ex);
             }
         }
     }

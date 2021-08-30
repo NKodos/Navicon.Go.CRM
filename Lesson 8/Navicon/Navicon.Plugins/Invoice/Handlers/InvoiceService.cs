@@ -86,7 +86,7 @@ namespace Navicon.Plugins.Invoice.Handlers
             var dogovorId = GetDogovorId(targetInvoice);
             if (dogovorId == null) return;
 
-            var fact = GetFact(targetInvoice);
+            var fact = IsFact(targetInvoice);
             if (!fact.GetValueOrDefault()) return;
 
             var agreementService = new AgreementService(_service);
@@ -111,19 +111,19 @@ namespace Navicon.Plugins.Invoice.Handlers
             return dogovorId;
         }
 
-        private bool? GetFact(new_invoice targetInvoice)
+        private bool? IsFact(new_invoice targetInvoice)
         {
-            var dogovorId = targetInvoice.new_fact;
-            if (dogovorId == null)
+            var isFact = targetInvoice.new_fact;
+            if (isFact == null)
             {
                 var currentInvoice = _service.Retrieve(new_invoice.EntityLogicalName, targetInvoice.Id,
                         new ColumnSet(new_invoice.Fields.new_fact))
                     .ToEntity<new_invoice>();
 
-                dogovorId = currentInvoice.new_fact;
+                isFact = currentInvoice.new_fact;
             }
 
-            return dogovorId;
+            return isFact;
         }
     }
 }
