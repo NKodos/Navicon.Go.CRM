@@ -2,6 +2,7 @@
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Navicon.Common.Entities;
+using Navicon.Common.Entities.Query;
 
 namespace Navicon.Plugins.Agreement.Handlers
 {
@@ -17,26 +18,18 @@ namespace Navicon.Plugins.Agreement.Handlers
             _service = service ?? throw new ArgumentNullException(nameof(service));
         }
 
+        /// <summary>
+        /// Обновить дату первого договора в объекте Котакт, указанным в договоре
+        /// </summary>
         public void UpdateContactFirstAgreementDate(new_agreement targetEntity)
-        {
-            
+        {            
             var contactRef = targetEntity.new_contact;
             if (contactRef == null) return;
 
             var contact = _service.Retrieve(contactRef.LogicalName, contactRef.Id,
                 new ColumnSet(Contact.Fields.new_date)).ToEntity<Contact>();
 
-            var query = new QueryExpression(new_agreement.EntityLogicalName)
-            {
-                ColumnSet = new ColumnSet(new_agreement.Fields.Id),
-                NoLock = true,
-                TopCount = 1
-            };
-            query.Criteria.AddCondition(new_agreement.Fields.new_contact, ConditionOperator.Equal, contactRef.Id);
-
-            var result = _service.RetrieveMultiple(query);
-
-            if (result.Entities.Count < 1)
+            if (IsContactHasNotAgreement(contactRef.Id))
             {
                 var updatedContact = new Contact 
                 {
@@ -46,7 +39,6 @@ namespace Navicon.Plugins.Agreement.Handlers
 
                 _service.Update(updatedContact);
             }
-
         }
 
         public new_agreement RecalculateFactSumma(Guid id, Money summa)
@@ -68,11 +60,22 @@ namespace Navicon.Plugins.Agreement.Handlers
             var agreement = _service.Retrieve(new_agreement.EntityLogicalName, id, conlumns)
                 .ToEntity<new_agreement>();
 
-
             if (agreement.new_factsumma == null) return false;
             if (agreement.new_summa == null) return true;
 
             return agreement.new_factsumma.Value > agreement.new_summa.Value;
+        }
+
+        /// <summary>
+        /// Проверка: контакт имеет хотя бы 1 договор?
+        /// </summary>
+        /// <param name="contactId">contact Guid</param>
+        /// <returns>True - если у контакта есть какой-то договор</returns>
+        private bool IsContactHasNotAgreement(Guid contactId)
+        {
+            var query = new AgreementQuery(_service);
+            var condition = new ConditionExpression(new_agreement.Fields.new_contact, ConditionOperator.Equal, contactId);
+            return !query.HasData(condition);
         }
     }
 }
