@@ -71,6 +71,7 @@
     <Compile Include="Entities\Query\CommunicationQuery.cs" />
     <Compile Include="Entities\Query\EntityQuery.cs" />
     <Compile Include="Entities\Query\EntityQueryExpression.cs" />
+    <Compile Include="Entities\Query\InvoiceQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -75,7 +75,7 @@ namespace Navicon.Plugins.Agreement.Handlers
         {
             var query = new AgreementQuery(_service);
             var condition = new ConditionExpression(new_agreement.Fields.new_contact, ConditionOperator.Equal, contactId);
-            return !query.HasData(condition);
+            return !query.AddCondition(condition).HasData();
         }
     }
 }

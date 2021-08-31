@@ -2,6 +2,7 @@
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Navicon.Common.Entities;
+using Navicon.Common.Entities.Query;
 
 namespace Navicon.Workflow.AgreementActivities.Handler
 {
@@ -48,16 +49,11 @@ namespace Navicon.Workflow.AgreementActivities.Handler
 
         public void DeleteAutomaticInvoice(EntityReference agreementRef)
         {
-            var query = new QueryExpression(new_invoice.EntityLogicalName)
-            {
-                ColumnSet = new ColumnSet(new_invoice.Fields.new_name),
-                NoLock = true,
-                TopCount = 1
-            };
-            query.Criteria.AddCondition(new_invoice.Fields.new_dogovorid, ConditionOperator.Equal, agreementRef.Id);
-            query.Criteria.AddCondition(new_invoice.Fields.new_type, ConditionOperator.Equal, (int)new_invoice_new_type.__100000001);
-
-            var queryResult = _service.RetrieveMultiple(query);
+            var queryResult = new InvoiceQuery(_service)
+                .AddCondition(
+                    new ConditionExpression(new_invoice.Fields.new_dogovorid, ConditionOperator.Equal, agreementRef.Id),
+                    new ConditionExpression(new_invoice.Fields.new_type, ConditionOperator.Equal, (int)new_invoice_new_type.__100000001))
+                .GetAll();
 
             foreach (var entity in queryResult.Entities)
             {

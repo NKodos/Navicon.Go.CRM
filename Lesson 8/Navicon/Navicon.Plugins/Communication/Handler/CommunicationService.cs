@@ -65,10 +65,12 @@ namespace Navicon.Plugins.Communication.Handler
         private bool IsExistMainCommunication(Guid contactId, new_communication_new_type type)
         {
             var query = new CommunicationQuery(_service);
-            return query.HasData(
-                new ConditionExpression(new_communication.Fields.new_contactid, ConditionOperator.Equal, contactId),
-                new ConditionExpression(new_communication.Fields.new_type, ConditionOperator.Equal, (int)type),
-                new ConditionExpression(new_communication.Fields.new_main, ConditionOperator.Equal, true));
+            return query
+                .AddCondition(
+                    new ConditionExpression(new_communication.Fields.new_contactid, ConditionOperator.Equal, contactId), 
+                    new ConditionExpression(new_communication.Fields.new_type, ConditionOperator.Equal, (int)type), 
+                    new ConditionExpression(new_communication.Fields.new_main, ConditionOperator.Equal, true))
+                .HasData();
         }
     }
 }

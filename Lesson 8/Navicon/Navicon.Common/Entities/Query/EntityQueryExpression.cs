@@ -1,4 +1,5 @@
-﻿using Microsoft.Xrm.Sdk;
+﻿using System.Collections.Generic;
+using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 
 namespace Navicon.Common.Entities.Query
@@ -27,7 +28,12 @@ namespace Navicon.Common.Entities.Query
 
         public void AddColumns(params string[] columns)
         {
-            Expression.ColumnSet = new ColumnSet(columns);
+            AddColumns(new ColumnSet(columns));
+        }
+
+        public void AddColumns(ColumnSet columnSet)
+        {
+            Expression.ColumnSet = columnSet;
         }
 
         public void AddCondition(string attributeName, ConditionOperator conditionOperator, params object[] values)
@@ -41,6 +47,14 @@ namespace Navicon.Common.Entities.Query
         }
 
         public void AddCondition(params ConditionExpression[] conditionExpression)
+        {
+            foreach (var expression in conditionExpression)
+            {
+                Expression.Criteria.AddCondition(expression);
+            }
+        }
+
+        public void AddCondition(List<ConditionExpression> conditionExpression)
         {
             foreach (var expression in conditionExpression)
             {
