@@ -1,27 +1,15 @@
-﻿using System;
-using Microsoft.Xrm.Sdk;
-using Navicon.Common.Entities;
+﻿using Navicon.Common.Entities;
 using Navicon.Plugins.Invoice.Handlers;
 
 namespace Navicon.Plugins.Invoice
 {
-    public sealed class PreInvoiceUpdate : PluginBase
+    public sealed class PreInvoiceUpdate : PluginBase<new_invoice>
     {
-        public override void Execute(IServiceProvider serviceProvider)
+        public override void ExecuteBusinessLogics(ServiceInfo<new_invoice> serviceInfo)
         {
-            var serviceInfo = GetBaseInfo<new_invoice>(serviceProvider);
-
-            try
-            {
-                var invoiceService = new InvoiceService(serviceInfo.OrganizationService);
-                invoiceService.UpdateAgreementPaidAmount(serviceInfo.TargetEntity);
-                invoiceService.CheckAgreementPaidAmount(serviceInfo.TargetEntity);
-            }
-            catch (Exception ex)
-            {
-                serviceInfo.TracingService.Trace(ex.ToString());
-                throw new InvalidPluginExecutionException(ex.Message);
-            }
+            var invoiceService = new InvoiceService(serviceInfo.OrganizationService);
+            invoiceService.UpdateAgreementPaidAmount(serviceInfo.TargetEntity);
+            invoiceService.CheckAgreementPaidAmount(serviceInfo.TargetEntity);
         }
     }
 }

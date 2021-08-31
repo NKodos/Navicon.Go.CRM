@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Activities;
 using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Query;
 using Microsoft.Xrm.Sdk.Workflow;
-using Navicon.Common.Entities;
 using Navicon.Workflow.AgreementActivities.Handler;
 
 namespace Navicon.Workflow.AgreementActivities

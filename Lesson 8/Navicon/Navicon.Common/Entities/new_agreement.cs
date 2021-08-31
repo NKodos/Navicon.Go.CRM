@@ -8,6 +8,8 @@
 //------------------------------------------------------------------------------
 
 
+using Microsoft.Xrm.Sdk;
+
 namespace Navicon.Common.Entities
 {
 	
@@ -28,7 +30,7 @@ namespace Navicon.Common.Entities
 	[System.Runtime.Serialization.DataContractAttribute()]
 	[Microsoft.Xrm.Sdk.Client.EntityLogicalNameAttribute("new_agreement")]
 	public partial class new_agreement : Microsoft.Xrm.Sdk.Entity, System.ComponentModel.INotifyPropertyChanging, System.ComponentModel.INotifyPropertyChanged
-	{
+    {
 		
 		public static class Fields
 		{

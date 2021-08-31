@@ -3,9 +3,23 @@ using Microsoft.Xrm.Sdk;
 
 namespace Navicon.Plugins
 {
-    public abstract class PluginBase : IPlugin
+    public abstract class PluginBase<T> : IPlugin where T: Entity
     {
-        public abstract void Execute(IServiceProvider serviceProvider);
+        public abstract void ExecuteBusinessLogics(ServiceInfo<T> serviceInfo);
+
+        public void Execute(IServiceProvider serviceProvider)
+        {
+            var serviceInfo = GetBaseInfo<T>(serviceProvider);
+            try
+            {
+                ExecuteBusinessLogics(serviceInfo);
+            }
+            catch (Exception ex)
+            {
+                serviceInfo.TracingService.Trace(ex.ToString());
+                throw new InvalidPluginExecutionException(ex.Message);
+            }
+        }
 
         protected ServiceInfo<T> GetBaseInfo<T>(IServiceProvider serviceProvider) where T : Entity
         {

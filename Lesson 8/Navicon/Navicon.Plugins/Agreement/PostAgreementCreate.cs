@@ -1,27 +1,14 @@
-﻿using System;
-using Microsoft.Xrm.Sdk;
-using Navicon.Common.Entities;
+﻿using Navicon.Common.Entities;
 using Navicon.Plugins.Agreement.Handlers;
-using Navicon.Plugins.Invoice.Handlers;
 
 namespace Navicon.Plugins.Agreement
 {
-    public sealed class PostAgreementCreate : PluginBase
+    public sealed class PostAgreementCreate : PluginBase<new_agreement>
     {
-        public override void Execute(IServiceProvider serviceProvider)
+        public override void ExecuteBusinessLogics(ServiceInfo<new_agreement> serviceInfo)
         {
-            var serviceInfo = GetBaseInfo<new_agreement>(serviceProvider);
-
-            try
-            {
-                var service = new PostAgreementService(serviceInfo.OrganizationService);
-                service.TrySetFact(serviceInfo.TargetEntity);
-            }
-            catch (Exception ex)
-            {
-                serviceInfo.TracingService.Trace(ex.ToString());
-                throw new InvalidPluginExecutionException(ex.Message);
-            }
+            var service = new PostAgreementService(serviceInfo.OrganizationService);
+            service.TrySetFact(serviceInfo.TargetEntity);
         }
     }
 }
