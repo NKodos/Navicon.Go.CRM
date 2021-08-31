@@ -20,7 +20,6 @@
         function fillGrid(array) {
             const rows = array.map(
                 (row, index) => {
-                    console.log(row);
                     return `<div class="grid-item" onClick="creditItemOnClick('${row.creditId}')">${row.creditName}</div>` +
                         `<div class="grid-item" onClick="modelItemOnClick('${row.modelId}')">${row.modelName}</div>` +
                         `<div class="grid-item">${row.creditPeriod}</div>`

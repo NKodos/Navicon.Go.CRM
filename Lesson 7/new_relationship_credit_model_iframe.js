@@ -12,7 +12,7 @@ Navicon.new_relationship_credit_model_iframe = (function () {
             console.log(brandId);
 
             if (!brandId) {
-                console.error('id сущности не был найден')
+                console.error('id сущности не был найден');
                 return;
             }
 
@@ -26,15 +26,28 @@ Navicon.new_relationship_credit_model_iframe = (function () {
 
             promise.then(
                 function (resultArray) {
-                    const resultArrayFiltered = resultArray.entities.filter(
+                    const resultArrayFiltered = [];
+                    
+                    resultArray.entities.filter(
                         function (entity, index) {
-                            entity.new_autoid.new_brendId.new_brandid.toLowerCase() === '76B4E016-E8FC-EB11-94EF-002248995083'.toLowerCase();
+                            console.log(entity);
+                            let entityBrandId = entity.new_autoid.new_brendId.new_brandid.toLowerCase();
+                            let currentBrandId = brandId.replace('{', '').replace('}', '').toLowerCase();                            
+                            let i = resultArrayFiltered.findIndex(
+                                x => (x.new_creditid?.new_creditid === entity.new_creditid?.new_creditid && 
+                                    x.new_autoid.new_modelid.new_modelid === entity.new_autoid.new_modelid.new_modelid));
+                            
+                            if (i <= -1 && entityBrandId === currentBrandId && 
+                                entity.new_creditid != null) {
+
+                                resultArrayFiltered.push(entity);
+                            }
+                            return null;
                         }
                     );
 
-
                     const gridObjectArray = resultArrayFiltered.map(
-                        (entity, index) => {
+                        function (entity, index) {
                             return {
                                 creditId: entity.new_creditid?.new_creditid,
                                 creditName: entity.new_creditid?.new_name,
