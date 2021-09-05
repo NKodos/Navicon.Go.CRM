@@ -15,7 +15,10 @@ namespace Navicon.Plugins.Invoice.Handlers
             _service = service ?? throw new ArgumentNullException(nameof(service));
         }
 
-        public void CheckInvoiceType(new_invoice targetInvoice)
+        /// <summary>
+        /// Установить тип счета по-умолчанию (Ручное создание)
+        /// </summary>
+        public void SetDefaultInvoiceType(new_invoice targetInvoice)
         {
             if (targetInvoice.new_type == null)
             {
@@ -23,6 +26,9 @@ namespace Navicon.Plugins.Invoice.Handlers
             }
         }
 
+        /// <summary>
+        /// Добавить сумму счета к оплаченной сумме договора
+        /// </summary>
         public void AddAgreementPaidAmount(new_invoice targetInvoice)
         {
             if (!targetInvoice.new_fact.GetValueOrDefault()) return;
@@ -30,6 +36,9 @@ namespace Navicon.Plugins.Invoice.Handlers
             RecalculateAgreementPaidAmount(targetInvoice.new_dogovorid.Id, targetInvoice.new_amount);
         }
 
+        /// <summary>
+        /// Вычесть сумму счета из оплаченной суммы договора
+        /// </summary>
         public void SubAgreementPaidAmount(new_invoice targetInvoice)
         {
             if (!targetInvoice.new_fact.GetValueOrDefault()) return;
@@ -48,10 +57,8 @@ namespace Navicon.Plugins.Invoice.Handlers
             currentInvoice.new_amount = currentInvoice.new_amount ?? new Money(0);
             targetInvoice.new_amount = targetInvoice.new_amount ?? new Money(currentInvoice.new_amount.Value);
 
+
             var currentAmount = currentInvoice.new_amount;
-            var diffAmountValue = targetInvoice.new_amount.Value - currentAmount.Value;
-            var isAmountChanged = diffAmountValue != 0;
-            
             var isFactChanged = targetInvoice.new_fact != null;
 
             if (isFactChanged)
@@ -67,6 +74,9 @@ namespace Navicon.Plugins.Invoice.Handlers
             }
             else
             {
+                var diffAmountValue = targetInvoice.new_amount.Value - currentAmount.Value;
+                var isAmountChanged = diffAmountValue != 0;
+
                 if (currentInvoice.new_fact.GetValueOrDefault() && isAmountChanged)
                 {
                     RecalculateAgreementPaidAmount(currentInvoice.new_dogovorid.Id, new Money(diffAmountValue));
@@ -74,6 +84,11 @@ namespace Navicon.Plugins.Invoice.Handlers
             }
         }
 
+        /// <summary>
+        /// Пересчитать и обновить сумму договора
+        /// </summary>
+        /// <param name="id">Guid договора</param>
+        /// <param name="factSumma">Сумма, которую нужно прибавить</param>
         private void RecalculateAgreementPaidAmount(Guid id, Money factSumma)
         {
             var agreementService = new AgreementService(_service);
@@ -81,49 +96,38 @@ namespace Navicon.Plugins.Invoice.Handlers
             _service.Update(updatedAgreement);
         }
 
+        /// <summary>
+        /// Проверка: если у договора оплаченная сумма больше суммы договора, тогда прокинуть исключение
+        /// </summary>
         public void CheckAgreementPaidAmount(new_invoice targetInvoice)
         {
-            var dogovorId = GetDogovorId(targetInvoice);
-            if (dogovorId == null) return;
-
-            var fact = IsFact(targetInvoice);
-            if (!fact.GetValueOrDefault()) return;
+            var dogovorIdAndIsFact = GetDogovorIdAndIsFact(targetInvoice);
 
             var agreementService = new AgreementService(_service);
-            if (agreementService.IsFactSummaGreaterAgreementSumma(dogovorId.Value))
+            if (agreementService.IsFactSummaGreaterAgreementSumma(dogovorIdAndIsFact.id))
             {
                 throw new Exception("Оплаченная сумма выбранного договора превышает сумму договора");
             }
         }
 
-        private Guid? GetDogovorId(new_invoice targetInvoice)
+        /// <summary>
+        /// Если id договора или факт не были изменены - получить их из БД
+        /// </summary>
+        /// <returns>Кортеж: Guid договора и поле Оплачен</returns>
+        private (Guid id, bool isFact) GetDogovorIdAndIsFact(new_invoice targetInvoice)
         {
-            var dogovorId = targetInvoice.new_dogovorid?.Id;
-            if (dogovorId == null)
-            {
-                var currentInvoice = _service.Retrieve(new_invoice.EntityLogicalName, targetInvoice.Id, 
-                        new ColumnSet(new_invoice.Fields.new_dogovorid))
-                        .ToEntity<new_invoice>();
+            var result = (id: Guid.Empty, isFact: false);
 
-                dogovorId = currentInvoice.new_dogovorid?.Id;
-            }
-
-            return dogovorId;
-        }
-
-        private bool? IsFact(new_invoice targetInvoice)
-        {
-            var isFact = targetInvoice.new_fact;
-            if (isFact == null)
+            if (targetInvoice.new_dogovorid == null || targetInvoice.new_fact == null)
             {
                 var currentInvoice = _service.Retrieve(new_invoice.EntityLogicalName, targetInvoice.Id,
-                        new ColumnSet(new_invoice.Fields.new_fact))
+                        new ColumnSet(new_invoice.Fields.new_dogovorid, new_invoice.Fields.new_fact))
                     .ToEntity<new_invoice>();
-
-                isFact = currentInvoice.new_fact;
+                result.id = currentInvoice.new_dogovorid.Id;
+                result.isFact = currentInvoice.new_fact.GetValueOrDefault();
             }
 
-            return isFact;
+            return result;
         }
     }
 }

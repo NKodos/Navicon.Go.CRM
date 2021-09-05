@@ -1,14 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Moq;
 using Navicon.Common.Entities;
-using Navicon.Common.Entities.Query;
 using Navicon.Plugins.Communication.Handler;
 
-namespace Navicon.Tests.Plugins.Agreement
+namespace Navicon.Tests.Plugins.Communication
 {
     [TestClass]
     public class CommunicationServiceTests
