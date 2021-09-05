@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
+using Navicon.Common.Entities.Query.Interfaces;
 
 namespace Navicon.Common.Entities.Query
 {
@@ -9,6 +10,8 @@ namespace Navicon.Common.Entities.Query
         public readonly string EntityName;
 
         public IOrganizationService Service { get; protected set; }
+
+        public IQueryExpressionBuilder ExpressionBuilder { get; protected set; }
 
         public List<ConditionExpression> Conditions { get; protected set; }
 
@@ -20,12 +23,7 @@ namespace Navicon.Common.Entities.Query
             EntityName = entityName;
             Conditions = new List<ConditionExpression>();
             ColumnSet = new ColumnSet();
-        }
-
-        public EntityQuery AddColumn(params string[] columnNames)
-        {
-            ColumnSet.AddColumns(columnNames);
-            return this;
+            ExpressionBuilder = new QueryExpressionBuilder();
         }
 
         public EntityQuery AddCondition(params ConditionExpression[] conditions)
@@ -52,19 +50,26 @@ namespace Navicon.Common.Entities.Query
 
         public EntityCollection GetAll()
         {
-            var query = new EntityQueryExpression(Service, EntityName);
-            query.AddCondition(Conditions);
-            query.AddColumns(ColumnSet);
-            return query.RetrieveMultiple();
+            var query = CreateNewExpression();
+            return Service.RetrieveMultiple(query);
         }
 
         public bool HasData()
         {
-            var query = new EntityQueryExpression(Service, EntityName, 1);
-            query.AddCondition(Conditions);
+            var query = CreateNewExpression();
+            var entityCollection = Service.RetrieveMultiple(query);
 
-            var entityCollection = query.RetrieveMultiple();
             return entityCollection.Entities.Count > 0;
+        }
+
+        protected QueryBase CreateNewExpression()
+        {
+            return ExpressionBuilder
+                .ClearColumns()
+                .ClearConditions()
+                .AddColumns(ColumnSet)
+                .AddCondition(Conditions)
+                .Build();
         }
     }
 }

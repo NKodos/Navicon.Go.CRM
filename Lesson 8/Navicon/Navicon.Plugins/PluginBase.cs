@@ -9,7 +9,7 @@ namespace Navicon.Plugins
 
         public void Execute(IServiceProvider serviceProvider)
         {
-            var serviceInfo = GetBaseInfo<T>(serviceProvider);
+            var serviceInfo = GetBaseInfo(serviceProvider);
             try
             {
                 ExecuteBusinessLogics(serviceInfo);
@@ -21,7 +21,7 @@ namespace Navicon.Plugins
             }
         }
 
-        protected ServiceInfo<T> GetBaseInfo<T>(IServiceProvider serviceProvider) where T : Entity
+        protected ServiceInfo<T> GetBaseInfo(IServiceProvider serviceProvider)
         {
             var info = new ServiceInfo<T>(serviceProvider);
 

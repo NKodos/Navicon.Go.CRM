@@ -29,6 +29,8 @@ namespace Navicon.Plugins.Agreement.Handlers
             var contact = _service.Retrieve(contactRef.LogicalName, contactRef.Id,
                 new ColumnSet(Contact.Fields.new_date)).ToEntity<Contact>();
 
+            if (contact == null) throw new Exception("Контакт договора не найден в БД. Id контакта = " + contactRef.Id);
+
             if (IsContactHasNotAgreement(contactRef.Id))
             {
                 var updatedContact = new Contact 
@@ -41,6 +43,12 @@ namespace Navicon.Plugins.Agreement.Handlers
             }
         }
 
+        /// <summary>
+        /// К текущей оплаченной сумме договора прибавить сумму, переданную в аргументе
+        /// </summary>
+        /// <param name="id">Guid договора</param>
+        /// <param name="summa">Сумма, которая прибавится</param>
+        /// <returns></returns>
         public new_agreement RecalculateFactSumma(Guid id, Money summa)
         {
             var agreement = _service.Retrieve(new_agreement.EntityLogicalName, id,
@@ -53,6 +61,11 @@ namespace Navicon.Plugins.Agreement.Handlers
             return result;
         }
 
+        /// <summary>
+        /// Проверка: оплаченная сумма больше суммы договора
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public bool IsFactSummaGreaterAgreementSumma(Guid id)
         {
             var conlumns = new ColumnSet(new_agreement.Fields.new_factsumma, 
