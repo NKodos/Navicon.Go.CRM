@@ -102,6 +102,7 @@
   <ItemGroup>
     <Compile Include="Common\Entities\Query\QueryTests.cs" />
     <Compile Include="Plugins\Agreement\AgreementServiceTests.cs" />
+    <Compile Include="Plugins\Agreement\CommunicationServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

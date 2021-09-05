@@ -44,11 +44,14 @@ namespace Navicon.Plugins.Communication.Handler
             }
         }
 
+        /// <summary>
+        /// Проверяет, что у контакта средства связи нет основного средства связи с текущим типом.
+        /// Если существует - выбросит ошибку
+        /// </summary>
         public void CheckNewCommunicationMain(new_communication targetCommunication)
         {
             if (targetCommunication.new_type == null ||
-                targetCommunication.new_contactid == null ||
-                targetCommunication.new_type == null) return;
+                targetCommunication.new_contactid == null) return;
 
             if (targetCommunication.new_main.GetValueOrDefault())
             {
