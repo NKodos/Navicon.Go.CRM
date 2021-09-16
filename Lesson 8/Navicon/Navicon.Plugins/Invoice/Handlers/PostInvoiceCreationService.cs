@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xrm.Sdk;
+﻿using Microsoft.Xrm.Sdk;
 using Navicon.Common.Entities;
 
 namespace Navicon.Plugins.Invoice.Handlers

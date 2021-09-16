@@ -22,7 +22,7 @@ namespace Navicon.Tests.Plugins.Communication
                 .Setup(service => service.RetrieveMultiple(It.IsAny<QueryBase>()))
                 .Returns(new EntityCollection(new List<Entity>()));
 
-            var communicationService = new CommunicationService(_serviceMock.Object);
+            var communicationService = new PreCommunicationCreationService(_serviceMock.Object);
             var targetEntity = new new_communication
             {
                 new_main = true,
@@ -46,7 +46,7 @@ namespace Navicon.Tests.Plugins.Communication
                     new Entity()
                 }));
 
-            var communicationService = new CommunicationService(_serviceMock.Object);
+            var communicationService = new PreCommunicationCreationService(_serviceMock.Object);
             var targetEntity = new new_communication
             {
                 new_main = true,

@@ -7,8 +7,8 @@ namespace Navicon.Plugins.Communication
     {
         public override void ExecuteBusinessLogics(ServiceInfo<new_communication> serviceInfo)
         {
-            var service = new CommunicationService(serviceInfo.OrganizationService);
-            service.CheckCommunicationMain(serviceInfo.TargetEntity);
+            var service = new PreCommunicationUpdatingService(serviceInfo.OrganizationService);
+            service.Execute(serviceInfo.TargetEntity);
         }
     }
 }
