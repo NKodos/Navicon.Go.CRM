@@ -7,8 +7,8 @@ namespace Navicon.Plugins.Agreement
     {
         public override void ExecuteBusinessLogics(ServiceInfo<new_agreement> serviceInfo)
         {
-            var service = new AgreementService(serviceInfo.OrganizationService);
-            service.UpdateContactFirstAgreementDate(serviceInfo.TargetEntity);
+            var service = new PreAgreementCreateService(serviceInfo.OrganizationService);
+            service.Execute(serviceInfo.TargetEntity);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Navicon.Tests.Plugins.Invoice
         public void CheckAgreementPaidAmount_FactSummaIsNotGreaterAgreementSumma_NoException()
         {
             // Arrange
-            var invoiceService = new InvoiceService(_serviceMock.Object); 
+            var invoiceService = new ToolsInvoiceService(_serviceMock.Object); 
 
             _serviceMock
                 .Setup(service => service.Retrieve(new_agreement.EntityLogicalName,
@@ -42,7 +42,7 @@ namespace Navicon.Tests.Plugins.Invoice
         public void CheckAgreementPaidAmount_FactSummaIsGreaterAgreementSumma_ThrowException()
         {
             // Arrange
-            var invoiceService = new InvoiceService(_serviceMock.Object);
+            var invoiceService = new ToolsInvoiceService(_serviceMock.Object);
 
             _serviceMock
                 .Setup(service => service.Retrieve(new_agreement.EntityLogicalName,

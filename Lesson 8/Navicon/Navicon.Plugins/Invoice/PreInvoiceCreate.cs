@@ -7,10 +7,8 @@ namespace Navicon.Plugins.Invoice
     {
         public override void ExecuteBusinessLogics(ServiceInfo<new_invoice> serviceInfo)
         {
-            var invoiceService = new InvoiceService(serviceInfo.OrganizationService);
-            invoiceService.SetDefaultInvoiceType(serviceInfo.TargetEntity);
-            invoiceService.AddAgreementPaidAmount(serviceInfo.TargetEntity);
-            invoiceService.CheckAgreementPaidAmount(serviceInfo.TargetEntity);
+            var invoiceService = new PreInvoiceCreationService(serviceInfo.OrganizationService);
+            invoiceService.Execute(serviceInfo.TargetEntity);
         }
     }
 }

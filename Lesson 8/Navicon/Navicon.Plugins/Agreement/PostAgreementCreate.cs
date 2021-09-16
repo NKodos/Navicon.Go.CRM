@@ -7,8 +7,8 @@ namespace Navicon.Plugins.Agreement
     {
         public override void ExecuteBusinessLogics(ServiceInfo<new_agreement> serviceInfo)
         {
-            var service = new PostAgreementService(serviceInfo.OrganizationService);
-            service.TrySetFact(serviceInfo.TargetEntity);
+            var service = new PostAgreementCreateService(serviceInfo.OrganizationService);
+            service.Execute(serviceInfo.TargetEntity);
         }
     }
 }

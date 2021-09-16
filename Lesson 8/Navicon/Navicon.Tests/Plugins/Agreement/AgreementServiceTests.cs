@@ -17,7 +17,7 @@ namespace Navicon.Tests.Plugins.Agreement
         public void RecalculateFactSumma_FactSumma100Plus100_ReturnNewFactSumma200()
         {
             // Arrange
-            var agreementService = new AgreementService(_serviceMock.Object);
+            var agreementService = new ToolsAgreementService(_serviceMock.Object);
             var agreementId = Guid.NewGuid();
             var currentAgreement = new new_agreement
             {
@@ -41,7 +41,7 @@ namespace Navicon.Tests.Plugins.Agreement
         public void RecalculateFactSumma_FactSummaNullPlus100_ReturnNewFactSumma100()
         {
             // Arrage
-            var agreementService = new AgreementService(_serviceMock.Object);
+            var agreementService = new ToolsAgreementService(_serviceMock.Object);
             var agreementId = Guid.NewGuid();
             var currentAgreement = new new_agreement
             {
@@ -65,7 +65,7 @@ namespace Navicon.Tests.Plugins.Agreement
         public void IsFactSummaGreaterAgreementSumma_CompareFactSummaWithSumma_ReturnTrue()
         {
             // Arrage
-            var agreementService = new AgreementService(_serviceMock.Object);
+            var agreementService = new ToolsAgreementService(_serviceMock.Object);
             var agreementId = Guid.NewGuid();
             var currentAgreement = new new_agreement
             {
