@@ -1,14 +1,15 @@
-﻿using Navicon.Common.Entities;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Navicon.Common.Entities;
 using Navicon.Plugins.Communication.Handler;
+using Navicon.Plugins.Interfaces;
 
 namespace Navicon.Plugins.Communication
 {
     public sealed class PreCommunicationUpdate : PluginBase<new_communication>
     {
-        public override void ExecuteBusinessLogics(ServiceInfo<new_communication> serviceInfo)
+        public override void RegistrateServices(ServiceCollection serviceCollection)
         {
-            var service = new PreCommunicationUpdatingService(serviceInfo.OrganizationService);
-            service.Execute(serviceInfo.TargetEntity);
+            serviceCollection.AddScoped<IService<new_communication>, PreCommunicationUpdatingService>();
         }
     }
 }

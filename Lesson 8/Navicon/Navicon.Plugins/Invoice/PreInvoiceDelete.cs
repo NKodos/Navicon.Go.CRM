@@ -1,14 +1,15 @@
-﻿using Navicon.Common.Entities;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Navicon.Common.Entities;
+using Navicon.Plugins.Interfaces;
 using Navicon.Plugins.Invoice.Handlers;
 
 namespace Navicon.Plugins.Invoice
 {
     public sealed class PreInvoiceDelete : PluginBase<new_invoice>
     {
-        public override void ExecuteBusinessLogics(ServiceInfo<new_invoice> serviceInfo)
+        public override void RegistrateServices(ServiceCollection serviceCollection)
         {
-            var invoiceService = new PreInvoiceDeletionService(serviceInfo.OrganizationService);
-            invoiceService.Execute(serviceInfo.TargetEntity);
+            serviceCollection.AddScoped<IService<new_invoice>, PreInvoiceDeletionService>();
         }
     }
 }

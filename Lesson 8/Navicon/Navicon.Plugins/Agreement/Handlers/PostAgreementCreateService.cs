@@ -1,28 +1,31 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Navicon.Common.Entities;
+using Navicon.Plugins.Agreement.Handlers.Tools;
 
 namespace Navicon.Plugins.Agreement.Handlers
 {
     public class PostAgreementCreateService : AgreementService
     {
-        public PostAgreementCreateService(IOrganizationService service) : base(service)
+        private readonly IAgreementFactTool _agreementFactTool;
+
+        public PostAgreementCreateService(IOrganizationService service,
+            IAgreementFactTool agreementFactTool) : base(service)
         {
+            _agreementFactTool = agreementFactTool;
         }
 
         public override void Execute(new_agreement entity)
         {
-            TrySetFact(entity);
+            TryUpdateFact(entity);
         }
 
-        protected void TrySetFact(new_agreement targetAgreement)
+        private void TryUpdateFact(new_agreement targetAgreement)
         {
-            var factSumma = targetAgreement.new_factsumma ?? new Money(0);
-            var summa = targetAgreement.new_summa ?? new Money(0);
+            var agreementResult = _agreementFactTool.TrySetFact(targetAgreement);
 
-            if (factSumma.Value == summa.Value)
+            if (agreementResult.Success)
             {
-                var updatedAgreement = new new_agreement { Id = targetAgreement.Id, new_fact = true };
-                Service.Update(updatedAgreement);
+                Service.Update(agreementResult.Value);
             }
         }
 

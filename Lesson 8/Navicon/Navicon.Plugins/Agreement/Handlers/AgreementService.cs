@@ -29,9 +29,9 @@ namespace Navicon.Plugins.Agreement.Handlers
         /// <returns></returns>
         public new_agreement RecalculateFactSumma(Guid id, Money summa)
         {
-            var agreement = Service.Retrieve(new_agreement.EntityLogicalName, id,
-                new ColumnSet(new_agreement.Fields.new_factsumma)).ToEntity<new_agreement>();
-            if (agreement == null) return new new_agreement();
+            var agreement = new AgreementQuery(Service)
+                .AddColumns(new_agreement.Fields.new_factsumma)
+                .Get(id);
 
             var result = new new_agreement {Id = agreement.Id, new_factsumma = agreement.new_factsumma};
             result.new_factsumma = result.new_factsumma ?? new Money();

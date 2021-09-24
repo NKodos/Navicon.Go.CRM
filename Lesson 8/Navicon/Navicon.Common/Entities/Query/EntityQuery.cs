@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Navicon.Common.Entities.Query.Interfaces;
 
 namespace Navicon.Common.Entities.Query
 {
-    public class EntityQuery
+    public class EntityQuery<T> where T : Entity
     {
         public readonly string EntityName;
 
@@ -26,7 +27,17 @@ namespace Navicon.Common.Entities.Query
             ExpressionBuilder = new QueryExpressionBuilder();
         }
 
-        public EntityQuery AddCondition(params ConditionExpression[] conditions)
+        public EntityQuery<T> AddColumns(params string[] columns)
+        {
+            foreach (var column in columns)
+            {
+                ColumnSet.AddColumn(column);
+            }
+
+            return this;
+        }
+
+        public EntityQuery<T> AddCondition(params ConditionExpression[] conditions)
         {
             foreach (var condition in conditions)
             {
@@ -36,16 +47,21 @@ namespace Navicon.Common.Entities.Query
             return this;
         }
 
-        public EntityQuery ClearColumns()
+        public EntityQuery<T> ClearColumns()
         {
             ColumnSet = new ColumnSet();
             return this;
         }
 
-        public EntityQuery ClearConditions()
+        public EntityQuery<T> ClearConditions()
         {
             Conditions.Clear();
             return this;
+        }
+
+        public T Get(Guid id)
+        {
+            return Service.Retrieve(EntityName, id, ColumnSet).ToEntity<T>();
         }
 
         public EntityCollection GetAll()

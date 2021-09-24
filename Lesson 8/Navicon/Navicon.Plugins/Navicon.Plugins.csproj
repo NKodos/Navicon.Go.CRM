@@ -47,6 +47,12 @@
     <Reference Include="Microsoft.Crm.Sdk.Proxy, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.42\lib\net462\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=5.0.0.2, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.5.0.2\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.5.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xrm.Sdk, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.42\lib\net462\Microsoft.Xrm.Sdk.dll</HintPath>
     </Reference>
@@ -108,7 +114,8 @@
     <Compile Include="Agreement\Handlers\PostAgreementCreateService.cs" />
     <Compile Include="Agreement\Handlers\AgreementService.cs" />
     <Compile Include="Agreement\Handlers\PreAgreementCreateService.cs" />
-    <Compile Include="Agreement\Handlers\ToolsAgreementService.cs" />
+    <Compile Include="Agreement\Handlers\Tools\AgreementFactTool.cs" />
+    <Compile Include="Agreement\Handlers\Tools\FactSummaTool.cs" />
     <Compile Include="Agreement\PostAgreementCreate.cs" />
     <Compile Include="Agreement\PreAgreementCreate.cs" />
     <Compile Include="Communication\Handler\CommunicationService.cs" />
@@ -123,6 +130,7 @@
     <Compile Include="Invoice\Handlers\PreInvoiceUpdatingService.cs" />
     <Compile Include="Invoice\Handlers\PreInvoiceCreationService.cs" />
     <Compile Include="Invoice\Handlers\ToolsInvoiceService.cs" />
+    <Compile Include="Invoice\Handlers\Tools\PayDateTool.cs" />
     <Compile Include="Invoice\PostInvoiceUpdate.cs" />
     <Compile Include="Invoice\PostInvoiceCreate.cs" />
     <Compile Include="Invoice\PreInvoiceUdate.cs" />

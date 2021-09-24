@@ -2,7 +2,8 @@
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Navicon.Common.Entities;
-using Navicon.Plugins.Agreement.Handlers;
+using Navicon.Common.Entities.Query;
+using Navicon.Plugins.Agreement.Handlers.Tools;
 using Navicon.Plugins.Interfaces;
 
 namespace Navicon.Plugins.Invoice.Handlers
@@ -37,9 +38,17 @@ namespace Navicon.Plugins.Invoice.Handlers
         /// <param name="factSumma">Сумма, которую нужно прибавить</param>
         protected void RecalculateAgreementPaidAmount(Guid id, Money factSumma)
         {
-            var agreementService = new ToolsAgreementService(Service);
-            var updatedAgreement = agreementService.RecalculateFactSumma(id, factSumma);
-            Service.Update(updatedAgreement);
+            var agreement = new AgreementQuery(Service)
+                .AddColumns(new_agreement.Fields.new_factsumma)
+                .Get(id);
+
+            var factSummaTool = new FactSummaTool();
+            var factSummResult = factSummaTool.AddToFactSumma(agreement, factSumma);
+
+            if (factSummResult.Success)
+            {
+                Service.Update(factSummResult.Value);
+            }
         }
 
         /// <summary>
@@ -48,12 +57,13 @@ namespace Navicon.Plugins.Invoice.Handlers
         public void CheckAgreementPaidAmount(new_invoice targetInvoice)
         {
             var dogovorIdAndIsFact = GetDogovorIdAndIsFact(targetInvoice);
+            // TODO: исправить
 
-            var agreementService = new ToolsAgreementService(Service);
-            if (agreementService.IsFactSummaGreaterAgreementSumma(dogovorIdAndIsFact.id))
-            {
-                throw new Exception("Оплаченная сумма выбранного договора превышает сумму договора");
-            }
+            //var agreementService = new ToolsAgreementService(Service);
+            //if (agreementService.IsFactSummaGreaterAgreementSumma(dogovorIdAndIsFact.id))
+            //{
+            //    throw new Exception("Оплаченная сумма выбранного договора превышает сумму договора");
+            //}
         }
 
         /// <summary>
@@ -75,21 +85,5 @@ namespace Navicon.Plugins.Invoice.Handlers
 
             return result;
         }
-
-        protected void SetPayDate(new_invoice targetInvoice)
-        {
-            if (targetInvoice.new_fact.GetValueOrDefault())
-            {
-                targetInvoice.new_paydate = DateTime.Now;
-                var updatedInvoice = new new_invoice
-                {
-                    Id = targetInvoice.Id,
-                    new_paydate = DateTime.Now
-                };
-
-                Service.Update(updatedInvoice);
-            }
-        }
-
     }
 }

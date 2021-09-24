@@ -1,11 +1,21 @@
 ﻿using System;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
-using Navicon.Common.Entities;
 
 namespace Navicon.Plugins
 {
-    public class ServiceInfo<T> where T : Entity
+    public interface IServiceInfo<T> where T : Entity
+    {
+        IServiceProvider ServiceProvider { get; }
+        ITracingService TracingService { get; }
+        IOrganizationService OrganizationService { get; }
+        T TargetEntity { get; set; }
+        void GetTracingService();
+        void GetOrganizationService();
+        void GetTargetEntity();
+    }
+
+    public class ServiceInfo<T> : IServiceInfo<T> where T : Entity
     {
         public IServiceProvider ServiceProvider { get; private set; }
 

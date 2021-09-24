@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Navicon.Common.Entities;
 using Navicon.TestConsole.Services;
 
 namespace Navicon.TestConsole
@@ -63,6 +64,17 @@ namespace Navicon.TestConsole
                     services
                         .AddHostedService<Worker>()
                         .AddScoped<IRandomLogger, RandomLogger>());
+        }
+
+        public IServiceProvider Build()
+        {
+            var container = new ServiceCollection();
+
+            
+
+            var pr = container.BuildServiceProvider();
+
+            return container.BuildServiceProvider();
         }
     }
 }

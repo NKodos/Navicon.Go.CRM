@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Moq;
+using Navicon.Common.Entities;
 using Navicon.Common.Entities.Query;
 
 namespace Navicon.Tests.Common.Entities.Query
@@ -35,7 +36,7 @@ namespace Navicon.Tests.Common.Entities.Query
         }
     }
 
-    public class EntityQueryTested : EntityQuery
+    public class EntityQueryTested : EntityQuery<new_invoice>
     {
         public EntityQueryTested(IOrganizationService service) : base(service, "TestEntity")
         {

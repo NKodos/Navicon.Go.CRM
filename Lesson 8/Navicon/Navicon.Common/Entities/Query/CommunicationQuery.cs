@@ -2,7 +2,7 @@
 
 namespace Navicon.Common.Entities.Query
 {
-    public class CommunicationQuery : EntityQuery
+    public class CommunicationQuery : EntityQuery<new_communication>
     {
         public CommunicationQuery(IOrganizationService service) : base(service, new_communication.EntityLogicalName)
         {
