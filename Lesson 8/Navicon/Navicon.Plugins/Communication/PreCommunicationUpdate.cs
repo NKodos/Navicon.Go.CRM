@@ -3,6 +3,7 @@ using Navicon.Common.Entities;
 using Navicon.Plugins.Communication.Handler;
 using Navicon.Plugins.Communication.Handler.Tools;
 using Navicon.Plugins.Interfaces;
+using Navicon.Plugins.Interfaces.HandlersTools;
 
 namespace Navicon.Plugins.Communication
 {

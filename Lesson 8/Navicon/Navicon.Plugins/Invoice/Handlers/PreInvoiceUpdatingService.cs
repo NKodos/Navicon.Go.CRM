@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Navicon.Common.Entities;
-using Navicon.Plugins.Agreement.Handlers.Tools;
+using Navicon.Plugins.Interfaces.HandlersTools;
 
 namespace Navicon.Plugins.Invoice.Handlers
 {

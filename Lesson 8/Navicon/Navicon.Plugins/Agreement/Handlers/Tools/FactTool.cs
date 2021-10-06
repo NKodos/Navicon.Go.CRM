@@ -1,14 +1,10 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Navicon.Common;
 using Navicon.Common.Entities;
+using Navicon.Plugins.Interfaces.HandlersTools;
 
 namespace Navicon.Plugins.Agreement.Handlers.Tools
 {
-    public interface IFactTool
-    {
-        Result<new_agreement> TrySetFact(new_agreement targetAgreement);
-    }
-
     public class FactTool : IFactTool
     {
         public Result<new_agreement> TrySetFact(new_agreement targetAgreement)

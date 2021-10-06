@@ -124,12 +124,16 @@
     <Compile Include="Communication\Handler\Tools\CommunicationTool.cs" />
     <Compile Include="Communication\PreCommunicationCreate.cs" />
     <Compile Include="Communication\PreCommunicationUpdate.cs" />
+    <Compile Include="Interfaces\HandlersTools\ICommunicationTool.cs" />
+    <Compile Include="Interfaces\HandlersTools\IFactSummaTool.cs" />
+    <Compile Include="Interfaces\HandlersTools\IFactTool.cs" />
     <Compile Include="Interfaces\IService.cs" />
     <Compile Include="Invoice\Handlers\PostInvoiceCreationService.cs" />
     <Compile Include="Invoice\Handlers\InvoiceService.cs" />
     <Compile Include="Invoice\Handlers\PreInvoiceDeletionService.cs" />
     <Compile Include="Invoice\Handlers\PreInvoiceUpdatingService.cs" />
     <Compile Include="Invoice\Handlers\PreInvoiceCreationService.cs" />
+    <Compile Include="Interfaces\HandlersTools\IPayDateTool.cs" />
     <Compile Include="Invoice\Handlers\Tools\PayDateTool.cs" />
     <Compile Include="Invoice\PostInvoiceUpdate.cs" />
     <Compile Include="Invoice\PostInvoiceCreate.cs" />

@@ -3,25 +3,10 @@ using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Navicon.Common.Entities;
 using Navicon.Common.Entities.Query;
+using Navicon.Plugins.Interfaces.HandlersTools;
 
 namespace Navicon.Plugins.Communication.Handler.Tools
 {
-    // TODO: Вынести в общую папку Interfaces > Tools
-    public interface ICommunicationTool
-    {
-        /// <summary>
-        /// Проверяет существует ли основное средство связи у выбранного контакта
-        /// с выбранным типом (E-mail / Телефон)
-        /// </summary>
-        void CheckCommunicationMain(new_communication targetCommunication);
-
-        /// <summary>
-        /// Проверяет, что у контакта средства связи нет основного средства связи с текущим типом.
-        /// Если существует - выбросит ошибку
-        /// </summary>
-        void CheckNewCommunicationMain(new_communication targetCommunication);
-    }
-
     public sealed class CommunicationTool : ICommunicationTool
     {
         private readonly IOrganizationService _service;

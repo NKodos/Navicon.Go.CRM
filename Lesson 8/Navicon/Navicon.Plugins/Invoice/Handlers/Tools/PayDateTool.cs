@@ -1,14 +1,10 @@
 ﻿using System;
 using Navicon.Common;
 using Navicon.Common.Entities;
+using Navicon.Plugins.Interfaces.HandlersTools;
 
 namespace Navicon.Plugins.Invoice.Handlers.Tools
 {
-    public interface IPayDateTool
-    {
-        Result<new_invoice> SetDefaultPayDate(new_invoice targetInvoice);
-    }
-
     public class PayDateTool : IPayDateTool
     {
         public Result<new_invoice> SetDefaultPayDate(new_invoice targetInvoice)

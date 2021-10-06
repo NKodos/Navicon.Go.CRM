@@ -8,13 +8,11 @@ using Navicon.Plugins.Agreement.Handlers.Tools;
 
 namespace Navicon.Tests.Plugins.Invoice
 {
-    // TODO: тестировать не сервисы, а tools
     [TestClass]
     public class InvoiceServiceTests
     {
         private readonly Mock<IOrganizationService> _serviceMock = new Mock<IOrganizationService>();
-
-        // TODO: тестировать не сервисы, а tools
+        
         [TestMethod]
         public void CheckAgreementPaidAmount_FactSummaIsNotGreaterAgreementSumma_ReturnFalse()
         {
@@ -41,8 +39,7 @@ namespace Navicon.Tests.Plugins.Invoice
             // Assert
             Assert.IsFalse(result);
         }
-
-        // TODO: тестировать не сервисы, а tools
+        
         [TestMethod]
         public void CheckAgreementPaidAmount_FactSummaIsGreaterAgreementSumma_ReturnTrue()
         {

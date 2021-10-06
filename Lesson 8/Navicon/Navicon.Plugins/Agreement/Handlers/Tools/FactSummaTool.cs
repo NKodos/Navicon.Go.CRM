@@ -3,16 +3,10 @@ using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Navicon.Common;
 using Navicon.Common.Entities;
+using Navicon.Plugins.Interfaces.HandlersTools;
 
 namespace Navicon.Plugins.Agreement.Handlers.Tools
 {
-    public interface IFactSummaTool
-    {
-        Result<new_agreement> AddToFactSumma(new_agreement agreement, Money summa);
-
-        bool IsFactSummaGreaterAgreementSumma(Guid id);
-    }
-
     public class FactSummaTool : IFactSummaTool
     {
         private readonly IOrganizationService _service;

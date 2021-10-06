@@ -5,6 +5,7 @@ using Navicon.Common.Entities;
 using Navicon.Common.Entities.Query;
 using Navicon.Plugins.Agreement.Handlers.Tools;
 using Navicon.Plugins.Interfaces;
+using Navicon.Plugins.Interfaces.HandlersTools;
 
 namespace Navicon.Plugins.Invoice.Handlers
 {

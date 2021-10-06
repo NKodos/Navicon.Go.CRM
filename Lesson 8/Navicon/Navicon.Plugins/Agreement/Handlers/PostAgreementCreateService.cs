@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Navicon.Common.Entities;
-using Navicon.Plugins.Agreement.Handlers.Tools;
+using Navicon.Plugins.Interfaces.HandlersTools;
 
 namespace Navicon.Plugins.Agreement.Handlers
 {
