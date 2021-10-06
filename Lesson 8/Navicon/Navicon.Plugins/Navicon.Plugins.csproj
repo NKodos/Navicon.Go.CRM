@@ -114,13 +114,14 @@
     <Compile Include="Agreement\Handlers\PostAgreementCreateService.cs" />
     <Compile Include="Agreement\Handlers\AgreementService.cs" />
     <Compile Include="Agreement\Handlers\PreAgreementCreateService.cs" />
-    <Compile Include="Agreement\Handlers\Tools\AgreementFactTool.cs" />
+    <Compile Include="Agreement\Handlers\Tools\FactTool.cs" />
     <Compile Include="Agreement\Handlers\Tools\FactSummaTool.cs" />
     <Compile Include="Agreement\PostAgreementCreate.cs" />
     <Compile Include="Agreement\PreAgreementCreate.cs" />
     <Compile Include="Communication\Handler\CommunicationService.cs" />
     <Compile Include="Communication\Handler\PreCommunicationCreationService.cs" />
     <Compile Include="Communication\Handler\PreCommunicationUpdatingService.cs" />
+    <Compile Include="Communication\Handler\Tools\CommunicationTool.cs" />
     <Compile Include="Communication\PreCommunicationCreate.cs" />
     <Compile Include="Communication\PreCommunicationUpdate.cs" />
     <Compile Include="Interfaces\IService.cs" />
@@ -129,7 +130,6 @@
     <Compile Include="Invoice\Handlers\PreInvoiceDeletionService.cs" />
     <Compile Include="Invoice\Handlers\PreInvoiceUpdatingService.cs" />
     <Compile Include="Invoice\Handlers\PreInvoiceCreationService.cs" />
-    <Compile Include="Invoice\Handlers\ToolsInvoiceService.cs" />
     <Compile Include="Invoice\Handlers\Tools\PayDateTool.cs" />
     <Compile Include="Invoice\PostInvoiceUpdate.cs" />
     <Compile Include="Invoice\PostInvoiceCreate.cs" />

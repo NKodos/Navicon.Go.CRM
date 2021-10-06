@@ -4,12 +4,12 @@ using Navicon.Common.Entities;
 
 namespace Navicon.Plugins.Agreement.Handlers.Tools
 {
-    public interface IAgreementFactTool
+    public interface IFactTool
     {
         Result<new_agreement> TrySetFact(new_agreement targetAgreement);
     }
 
-    public class AgreementFactTool : IAgreementFactTool
+    public class FactTool : IFactTool
     {
         public Result<new_agreement> TrySetFact(new_agreement targetAgreement)
         {

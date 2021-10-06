@@ -4,20 +4,22 @@ using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Moq;
 using Navicon.Common.Entities;
-using Navicon.Plugins.Invoice.Handlers;
+using Navicon.Plugins.Agreement.Handlers.Tools;
 
 namespace Navicon.Tests.Plugins.Invoice
 {
+    // TODO: тестировать не сервисы, а tools
     [TestClass]
     public class InvoiceServiceTests
     {
         private readonly Mock<IOrganizationService> _serviceMock = new Mock<IOrganizationService>();
 
+        // TODO: тестировать не сервисы, а tools
         [TestMethod]
-        public void CheckAgreementPaidAmount_FactSummaIsNotGreaterAgreementSumma_NoException()
+        public void CheckAgreementPaidAmount_FactSummaIsNotGreaterAgreementSumma_ReturnFalse()
         {
             // Arrange
-            var invoiceService = new ToolsInvoiceService(_serviceMock.Object); 
+            var invoiceService = new FactSummaTool(_serviceMock.Object);
 
             _serviceMock
                 .Setup(service => service.Retrieve(new_agreement.EntityLogicalName,
@@ -29,20 +31,23 @@ namespace Navicon.Tests.Plugins.Invoice
 
             var targetInvoice = new new_invoice
             {
-                new_dogovorid = new EntityReference {Id = Guid.NewGuid() },
+                new_dogovorid = new EntityReference { Id = Guid.NewGuid() },
                 new_fact = false
             };
-            
+
             // Act
-            invoiceService.CheckAgreementPaidAmount(targetInvoice);
+            var result = invoiceService.IsFactSummaGreaterAgreementSumma(targetInvoice.Id);
+
+            // Assert
+            Assert.IsFalse(result);
         }
 
+        // TODO: тестировать не сервисы, а tools
         [TestMethod]
-        [ExpectedException(typeof(Exception))]
-        public void CheckAgreementPaidAmount_FactSummaIsGreaterAgreementSumma_ThrowException()
+        public void CheckAgreementPaidAmount_FactSummaIsGreaterAgreementSumma_ReturnTrue()
         {
             // Arrange
-            var invoiceService = new ToolsInvoiceService(_serviceMock.Object);
+            var invoiceService = new FactSummaTool(_serviceMock.Object);
 
             _serviceMock
                 .Setup(service => service.Retrieve(new_agreement.EntityLogicalName,
@@ -60,7 +65,10 @@ namespace Navicon.Tests.Plugins.Invoice
             };
 
             // Act
-            invoiceService.CheckAgreementPaidAmount(targetInvoice);
+            var result = invoiceService.IsFactSummaGreaterAgreementSumma(targetInvoice.Id);
+            
+            // Assert
+            Assert.IsTrue(result);
         }
     }
 }

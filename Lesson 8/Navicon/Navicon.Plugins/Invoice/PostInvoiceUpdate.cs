@@ -2,6 +2,7 @@
 using Navicon.Common.Entities;
 using Navicon.Plugins.Interfaces;
 using Navicon.Plugins.Invoice.Handlers;
+using Navicon.Plugins.Invoice.Handlers.Tools;
 
 namespace Navicon.Plugins.Invoice
 {
@@ -9,6 +10,7 @@ namespace Navicon.Plugins.Invoice
     {
         public override void RegistrateServices(ServiceCollection serviceCollection)
         {
+            serviceCollection.AddScoped<IPayDateTool, PayDateTool>();
             serviceCollection.AddScoped<IService<new_invoice>, PostInvoiceCreationService>();
         }
     }

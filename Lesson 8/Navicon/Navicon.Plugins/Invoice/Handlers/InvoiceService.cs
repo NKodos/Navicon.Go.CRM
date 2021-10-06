@@ -21,28 +21,17 @@ namespace Navicon.Plugins.Invoice.Handlers
 
 
         /// <summary>
-        /// Вычесть сумму счета из оплаченной суммы договора
-        /// </summary>
-        protected void SubAgreementPaidAmount(new_invoice targetInvoice)
-        {
-            if (!targetInvoice.new_fact.GetValueOrDefault()) return;
-
-            var newAmount = new Money(targetInvoice.new_amount.Value * -1);
-            RecalculateAgreementPaidAmount(targetInvoice.new_dogovorid.Id, newAmount);
-        }
-
-        /// <summary>
         /// Пересчитать и обновить сумму договора
         /// </summary>
+        /// <param name="factSummaTool"></param>
         /// <param name="id">Guid договора</param>
         /// <param name="factSumma">Сумма, которую нужно прибавить</param>
-        protected void RecalculateAgreementPaidAmount(Guid id, Money factSumma)
+        protected void RecalculateAgreementPaidAmount(IFactSummaTool factSummaTool, Guid id, Money factSumma)
         {
             var agreement = new AgreementQuery(Service)
                 .AddColumns(new_agreement.Fields.new_factsumma)
                 .Get(id);
-
-            var factSummaTool = new FactSummaTool();
+            
             var factSummResult = factSummaTool.AddToFactSumma(agreement, factSumma);
 
             if (factSummResult.Success)
@@ -54,16 +43,14 @@ namespace Navicon.Plugins.Invoice.Handlers
         /// <summary>
         /// Проверка: если у договора оплаченная сумма больше суммы договора, тогда прокинуть исключение
         /// </summary>
-        public void CheckAgreementPaidAmount(new_invoice targetInvoice)
+        protected void CheckAgreementPaidAmount(new_invoice targetInvoice, IFactSummaTool factSummaTool)
         {
             var dogovorIdAndIsFact = GetDogovorIdAndIsFact(targetInvoice);
-            // TODO: исправить
-
-            //var agreementService = new ToolsAgreementService(Service);
-            //if (agreementService.IsFactSummaGreaterAgreementSumma(dogovorIdAndIsFact.id))
-            //{
-            //    throw new Exception("Оплаченная сумма выбранного договора превышает сумму договора");
-            //}
+            
+            if (factSummaTool.IsFactSummaGreaterAgreementSumma(dogovorIdAndIsFact.id))
+            {
+                throw new Exception("Оплаченная сумма выбранного договора превышает сумму договора");
+            }
         }
 
         /// <summary>

@@ -1,19 +1,24 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Navicon.Common.Entities;
+using Navicon.Plugins.Agreement.Handlers.Tools;
 
 namespace Navicon.Plugins.Invoice.Handlers
 {
     public class PreInvoiceUpdatingService : InvoiceService
     {
-        public PreInvoiceUpdatingService(IOrganizationService service) : base(service)
+        private readonly IFactSummaTool _factSummaTool;
+
+        public PreInvoiceUpdatingService(IOrganizationService service,
+            IFactSummaTool factSummaTool) : base(service)
         {
+            _factSummaTool = factSummaTool;
         }
 
         public override void Execute(new_invoice targetInvoice)
         {
             UpdateAgreementPaidAmount(targetInvoice);
-            CheckAgreementPaidAmount(targetInvoice);
+            CheckAgreementPaidAmount(targetInvoice, _factSummaTool);
         }
 
         protected void UpdateAgreementPaidAmount(new_invoice targetInvoice)
@@ -39,7 +44,10 @@ namespace Navicon.Plugins.Invoice.Handlers
                     newAmount.Value = currentAmount.Value * -1;
                 }
 
-                RecalculateAgreementPaidAmount(currentInvoice.new_dogovorid.Id, newAmount);
+                RecalculateAgreementPaidAmount(
+                    _factSummaTool, 
+                    currentInvoice.new_dogovorid.Id, 
+                    newAmount);
             }
             else
             {
@@ -48,7 +56,10 @@ namespace Navicon.Plugins.Invoice.Handlers
 
                 if (currentInvoice.new_fact.GetValueOrDefault() && isAmountChanged)
                 {
-                    RecalculateAgreementPaidAmount(currentInvoice.new_dogovorid.Id, new Money(diffAmountValue));
+                    RecalculateAgreementPaidAmount(
+                        _factSummaTool, 
+                        currentInvoice.new_dogovorid.Id, 
+                        new Money(diffAmountValue));
                 }
             }
         }

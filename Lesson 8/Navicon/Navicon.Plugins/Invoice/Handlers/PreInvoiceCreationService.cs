@@ -1,19 +1,24 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Navicon.Common.Entities;
+using Navicon.Plugins.Agreement.Handlers.Tools;
 
 namespace Navicon.Plugins.Invoice.Handlers
 {
     public class PreInvoiceCreationService : InvoiceService
     {
-        public PreInvoiceCreationService(IOrganizationService service) : base(service)
+        private readonly IFactSummaTool _factSummaTool;
+
+        public PreInvoiceCreationService(IOrganizationService service, 
+            IFactSummaTool factSummaTool) : base(service)
         {
+            _factSummaTool = factSummaTool;
         }
 
         public override void Execute(new_invoice targetInvoice)
         {
             SetDefaultInvoiceType(targetInvoice);
             AddAgreementPaidAmount(targetInvoice);
-            CheckAgreementPaidAmount(targetInvoice);
+            CheckAgreementPaidAmount(targetInvoice, _factSummaTool);
         }
 
 
@@ -35,7 +40,7 @@ namespace Navicon.Plugins.Invoice.Handlers
         {
             if (!targetInvoice.new_fact.GetValueOrDefault()) return;
 
-            RecalculateAgreementPaidAmount(targetInvoice.new_dogovorid.Id, targetInvoice.new_amount);
+            RecalculateAgreementPaidAmount(_factSummaTool, targetInvoice.new_dogovorid.Id, targetInvoice.new_amount);
         }
     }
 }

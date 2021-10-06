@@ -5,7 +5,7 @@ using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Moq;
 using Navicon.Common.Entities;
-using Navicon.Plugins.Communication.Handler;
+using Navicon.Plugins.Communication.Handler.Tools;
 
 namespace Navicon.Tests.Plugins.Communication
 {
@@ -22,7 +22,7 @@ namespace Navicon.Tests.Plugins.Communication
                 .Setup(service => service.RetrieveMultiple(It.IsAny<QueryBase>()))
                 .Returns(new EntityCollection(new List<Entity>()));
 
-            var communicationService = new PreCommunicationCreationService(_serviceMock.Object);
+            var tool = new CommunicationTool(_serviceMock.Object);
             var targetEntity = new new_communication
             {
                 new_main = true,
@@ -31,7 +31,7 @@ namespace Navicon.Tests.Plugins.Communication
             };
 
             // Act
-            communicationService.CheckNewCommunicationMain(targetEntity);
+            tool.CheckNewCommunicationMain(targetEntity);
         }
 
         [TestMethod]
@@ -46,7 +46,7 @@ namespace Navicon.Tests.Plugins.Communication
                     new Entity()
                 }));
 
-            var communicationService = new PreCommunicationCreationService(_serviceMock.Object);
+            var tool = new CommunicationTool(_serviceMock.Object);
             var targetEntity = new new_communication
             {
                 new_main = true,
@@ -55,7 +55,7 @@ namespace Navicon.Tests.Plugins.Communication
             };
 
             // Act
-            communicationService.CheckNewCommunicationMain(targetEntity);
+            tool.CheckNewCommunicationMain(targetEntity);
         }
     }
 }

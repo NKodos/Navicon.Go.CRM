@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Navicon.Common.Entities;
 using Navicon.Plugins.Communication.Handler;
+using Navicon.Plugins.Communication.Handler.Tools;
 using Navicon.Plugins.Interfaces;
 
 namespace Navicon.Plugins.Communication
@@ -9,6 +10,7 @@ namespace Navicon.Plugins.Communication
     {
         public override void RegistrateServices(ServiceCollection serviceCollection)
         {
+            serviceCollection.AddScoped<ICommunicationTool, CommunicationTool>();
             serviceCollection.AddScoped<IService<new_communication>, PreCommunicationUpdatingService>();
         }
     }

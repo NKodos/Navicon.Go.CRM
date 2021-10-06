@@ -6,12 +6,12 @@ namespace Navicon.Plugins.Agreement.Handlers
 {
     public class PostAgreementCreateService : AgreementService
     {
-        private readonly IAgreementFactTool _agreementFactTool;
+        private readonly IFactTool _factTool;
 
         public PostAgreementCreateService(IOrganizationService service,
-            IAgreementFactTool agreementFactTool) : base(service)
+            IFactTool factTool) : base(service)
         {
-            _agreementFactTool = agreementFactTool;
+            _factTool = factTool;
         }
 
         public override void Execute(new_agreement entity)
@@ -21,7 +21,7 @@ namespace Navicon.Plugins.Agreement.Handlers
 
         private void TryUpdateFact(new_agreement targetAgreement)
         {
-            var agreementResult = _agreementFactTool.TrySetFact(targetAgreement);
+            var agreementResult = _factTool.TrySetFact(targetAgreement);
 
             if (agreementResult.Success)
             {

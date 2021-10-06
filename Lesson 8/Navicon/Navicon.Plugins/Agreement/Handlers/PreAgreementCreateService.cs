@@ -2,6 +2,7 @@
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Navicon.Common.Entities;
+using Navicon.Common.Entities.Query;
 
 namespace Navicon.Plugins.Agreement.Handlers
 {
@@ -39,6 +40,18 @@ namespace Navicon.Plugins.Agreement.Handlers
 
                 Service.Update(updatedContact);
             }
+        }
+        
+        /// <summary>
+        /// Проверка: контакт имеет хотя бы 1 договор?
+        /// </summary>
+        /// <param name="contactId">contact Guid</param>
+        /// <returns>True - если у контакта есть какой-то договор</returns>
+        protected bool IsContactHasNotAgreement(Guid contactId)
+        {
+            var query = new AgreementQuery(Service);
+            var condition = new ConditionExpression(new_agreement.Fields.new_contact, ConditionOperator.Equal, contactId);
+            return !query.AddCondition(condition).HasData();
         }
     }
 }
